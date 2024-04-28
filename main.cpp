@@ -1,19 +1,20 @@
-#include "src/UI/main_screen/main_screen.h"
+#include "utilities/main_includes.h"
+#include "src/ui/main_screen/main_screen.h"
+
+#include "src/ui/game_screen/mainwindow.h"
+
 
 int main(int argc, char *argv[])
 {
     QApplication app(argc, argv);
 
-    QWidget window;
-    window.setWindowTitle("TIC TAC TOE");
+    MainScreen mainScreen;
+    mainScreen.setUserName("Sakka");
+    mainScreen.setWindowTitle("TIC TAC TOE");
+    mainScreen.show();
 
-    std::string userName = "Sakka";
-
-    mainScreen(userName, &window);
-
-
-    window.resize(800, 600);
-    window.show();
+    // MainWindow mainWindow;
+    // mainWindow.show();
 
     return app.exec();
 }

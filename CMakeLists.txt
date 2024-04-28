@@ -14,22 +14,28 @@ find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets)
 
 set(PROJECT_SOURCES
         main.cpp
-        mainwindow.cpp
-        mainwindow.h
-        mainwindow.ui
+
 )
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
     qt_add_executable(TicTacToe
         MANUAL_FINALIZATION
         ${PROJECT_SOURCES}
-        src/Utilities/Animation/animation.cpp
-        src/Utilities/Buttons/Custom_Button.cpp
-        src/UI/main_screen/main_screen.cpp
-        includes/main_includes.h
-        includes/Utilities/Buttons/custom_button.h
-        includes/Utilities/Animation/animation.h
-        main.cpp
+        src/ui/main_screen/main_screen.h
+        utilities/main_includes.h
+        src/ui/main_screen/main_screen.cpp
+        utilities/Buttons/custom_button.h
+        utilities/Animation/animation.h
+        src/ui/main_screen/main_screen.cpp
+        utilities/Animation/animation.cpp
+        utilities/Buttons/Custom_Button.cpp
+        src/ui/game_screen/CellButton.cpp
+        src/ui/game_screen/CellButton.h
+        src/ui/game_screen/mainwindow.cpp
+        src/ui/game_screen/mainwindow.h
+        utilities/main_includes.h
+
+
     )
 # Define target properties for Android with Qt 6 as:
 #    set_property(TARGET TicTacToe APPEND PROPERTY QT_ANDROID_PACKAGE_SOURCE_DIR
