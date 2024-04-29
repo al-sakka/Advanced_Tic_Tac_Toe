@@ -1,20 +1,14 @@
 #include "utilities/main_includes.h"
-#include "src/ui/main_screen/main_screen.h"
-
-#include "src/ui/game_screen/mainwindow.h"
-
+#include "src/ui/sign_screen/sign_screen.h"
 
 int main(int argc, char *argv[])
 {
-    QApplication app(argc, argv);
+    QApplication a(argc, argv);
 
-    MainScreen mainScreen;
-    mainScreen.setUserName("Sakka");
-    mainScreen.setWindowTitle("TIC TAC TOE");
-    mainScreen.show();
+    SignScreen w;
 
-    // MainWindow mainWindow;
-    // mainWindow.show();
+    // launch the registeration screen
+    w.show();
 
-    return app.exec();
+    return a.exec();
 }
