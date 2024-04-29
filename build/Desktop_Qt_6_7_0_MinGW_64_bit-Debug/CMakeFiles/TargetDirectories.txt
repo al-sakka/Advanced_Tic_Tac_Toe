@@ -1,0 +1,9 @@
+D:/study/My Projects/Embedded Systems - XO/xo/Advanced_Tic_Tac_Toe/build/Desktop_Qt_6_7_0_MinGW_64_bit-Debug/CMakeFiles/Advanced-Tic-Tac-Toe.dir
+D:/study/My Projects/Embedded Systems - XO/xo/Advanced_Tic_Tac_Toe/build/Desktop_Qt_6_7_0_MinGW_64_bit-Debug/CMakeFiles/edit_cache.dir
+D:/study/My Projects/Embedded Systems - XO/xo/Advanced_Tic_Tac_Toe/build/Desktop_Qt_6_7_0_MinGW_64_bit-Debug/CMakeFiles/rebuild_cache.dir
+D:/study/My Projects/Embedded Systems - XO/xo/Advanced_Tic_Tac_Toe/build/Desktop_Qt_6_7_0_MinGW_64_bit-Debug/CMakeFiles/list_install_components.dir
+D:/study/My Projects/Embedded Systems - XO/xo/Advanced_Tic_Tac_Toe/build/Desktop_Qt_6_7_0_MinGW_64_bit-Debug/CMakeFiles/install.dir
+D:/study/My Projects/Embedded Systems - XO/xo/Advanced_Tic_Tac_Toe/build/Desktop_Qt_6_7_0_MinGW_64_bit-Debug/CMakeFiles/install/local.dir
+D:/study/My Projects/Embedded Systems - XO/xo/Advanced_Tic_Tac_Toe/build/Desktop_Qt_6_7_0_MinGW_64_bit-Debug/CMakeFiles/install/strip.dir
+D:/study/My Projects/Embedded Systems - XO/xo/Advanced_Tic_Tac_Toe/build/Desktop_Qt_6_7_0_MinGW_64_bit-Debug/CMakeFiles/Advanced-Tic-Tac-Toe_autogen_timestamp_deps.dir
+D:/study/My Projects/Embedded Systems - XO/xo/Advanced_Tic_Tac_Toe/build/Desktop_Qt_6_7_0_MinGW_64_bit-Debug/CMakeFiles/Advanced-Tic-Tac-Toe_autogen.dir

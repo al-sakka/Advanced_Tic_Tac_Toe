@@ -13,6 +13,7 @@
 #include "../../../utilities/Buttons/custom_button.h"
 #include "../../../utilities/main_includes.h"
 #include "../main_screen/main_screen.h"
+#include "database.h"
 
 class SignScreen : public QWidget
 {
@@ -36,5 +37,6 @@ private:
     QMessageBox msgBox;
     Custom_Button* login;
     Custom_Button* signup;
+    Database db;
 };
 #endif // SIGN_SCREEN_H

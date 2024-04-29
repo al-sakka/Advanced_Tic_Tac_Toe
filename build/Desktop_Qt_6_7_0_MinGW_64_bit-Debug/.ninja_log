@@ -1,0 +1,32 @@
+# ninja log v5
+1	1378	7360749393781773	Advanced-Tic-Tac-Toe_autogen/timestamp	4ef26f3e75e26c46
+1	1378	7360749393781773	Advanced-Tic-Tac-Toe_autogen/mocs_compilation.cpp	4ef26f3e75e26c46
+1	1378	7360749393781773	D:/study/My Projects/Embedded Systems - XO/xo/Advanced_Tic_Tac_Toe/build/Desktop_Qt_6_7_0_MinGW_64_bit-Debug/Advanced-Tic-Tac-Toe_autogen/timestamp	4ef26f3e75e26c46
+1	1378	7360749393781773	D:/study/My Projects/Embedded Systems - XO/xo/Advanced_Tic_Tac_Toe/build/Desktop_Qt_6_7_0_MinGW_64_bit-Debug/Advanced-Tic-Tac-Toe_autogen/mocs_compilation.cpp	4ef26f3e75e26c46
+1425	1643	7360749396888155	CMakeFiles/Advanced-Tic-Tac-Toe.dir/src/algo/one_vs_one/oneVsOneAl.cpp.obj	25f453426522f0ab
+1408	5746	7360749437800254	CMakeFiles/Advanced-Tic-Tac-Toe.dir/src/algo/mini_max/miniMaxAl.cpp.obj	ef0699d82ec40523
+1393	5792	7360749438410702	CMakeFiles/Advanced-Tic-Tac-Toe.dir/utilities/Animation/animation.cpp.obj	5d00691c0684233e
+1385	5889	7360749439317626	CMakeFiles/Advanced-Tic-Tac-Toe.dir/src/ui/game_screen/CellButton.cpp.obj	a8e7499ac45efad3
+1404	5897	7360749439417647	CMakeFiles/Advanced-Tic-Tac-Toe.dir/utilities/Buttons/Custom_Button.cpp.obj	10b6aaa8c259f825
+1398	5939	7360749439929841	CMakeFiles/Advanced-Tic-Tac-Toe.dir/src/ui/game_screen/game_screen.cpp.obj	e16f6ac26722b969
+1378	6016	7360749440738369	CMakeFiles/Advanced-Tic-Tac-Toe.dir/Advanced-Tic-Tac-Toe_autogen/mocs_compilation.cpp.obj	f1274687c698df6a
+1382	6314	7360749443642318	CMakeFiles/Advanced-Tic-Tac-Toe.dir/main.cpp.obj	a140769ac857a282
+1389	6559	7360749446148217	CMakeFiles/Advanced-Tic-Tac-Toe.dir/src/ui/main_screen/main_screen.cpp.obj	54a845231f73ae7d
+1414	6670	7360749447252437	CMakeFiles/Advanced-Tic-Tac-Toe.dir/src/ui/sign_screen/sign_screen.cpp.obj	92c4b3adb1d806f5
+6670	7035	7360749450857053	Advanced-Tic-Tac-Toe.exe	2c55098f675cb5ed
+15	3227	7360757981993131	Advanced-Tic-Tac-Toe_autogen/timestamp	4ef26f3e75e26c46
+15	3227	7360757981993131	Advanced-Tic-Tac-Toe_autogen/mocs_compilation.cpp	4ef26f3e75e26c46
+15	3227	7360757981993131	D:/study/My Projects/Embedded Systems - XO/xo/Advanced_Tic_Tac_Toe/build/Desktop_Qt_6_7_0_MinGW_64_bit-Debug/Advanced-Tic-Tac-Toe_autogen/timestamp	4ef26f3e75e26c46
+15	3227	7360757981993131	D:/study/My Projects/Embedded Systems - XO/xo/Advanced_Tic_Tac_Toe/build/Desktop_Qt_6_7_0_MinGW_64_bit-Debug/Advanced-Tic-Tac-Toe_autogen/mocs_compilation.cpp	4ef26f3e75e26c46
+3264	7145	7360758021098670	CMakeFiles/Advanced-Tic-Tac-Toe.dir/src/algo/one_vs_one/oneVsOneAl.cpp.obj	3b496a9bd472683
+3268	7167	7360758021598674	CMakeFiles/Advanced-Tic-Tac-Toe.dir/src/algo/mini_max/miniMaxAl.cpp.obj	2ccfd40a24b5c580
+3260	7220	7360758022408755	CMakeFiles/Advanced-Tic-Tac-Toe.dir/utilities/Buttons/Custom_Button.cpp.obj	6a5e2fccbc46d17f
+3251	7783	7360758028016100	CMakeFiles/Advanced-Tic-Tac-Toe.dir/utilities/Animation/animation.cpp.obj	d1a654e45bea9d13
+3246	12541	7360758075628015	CMakeFiles/Advanced-Tic-Tac-Toe.dir/src/ui/main_screen/main_screen.cpp.obj	15bc8ce41e271ae7
+3255	12546	7360758075527998	CMakeFiles/Advanced-Tic-Tac-Toe.dir/src/ui/sign_screen/sign_screen.cpp.obj	232a7e8f33163278
+3232	12567	7360758076031022	CMakeFiles/Advanced-Tic-Tac-Toe.dir/src/ui/game_screen/game_screen.cpp.obj	bd2e001644e85647
+3237	12879	7360758079135171	CMakeFiles/Advanced-Tic-Tac-Toe.dir/main.cpp.obj	8fad31eea1eaed35
+3242	12881	7360758079135171	CMakeFiles/Advanced-Tic-Tac-Toe.dir/src/ui/game_screen/CellButton.cpp.obj	dd4e6470b9bb904e
+3228	13119	7360758081547408	CMakeFiles/Advanced-Tic-Tac-Toe.dir/Advanced-Tic-Tac-Toe_autogen/mocs_compilation.cpp.obj	1b6a5c53e88c5bdc
+7145	14681	7360758097254932	CMakeFiles/Advanced-Tic-Tac-Toe.dir/src/ui/sign_screen/database.cpp.obj	8d0d76b4bedcf2ab
+14681	15229	7360758102561858	Advanced-Tic-Tac-Toe.exe	cc630b7524f08994

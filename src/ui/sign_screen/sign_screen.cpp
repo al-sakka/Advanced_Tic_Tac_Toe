@@ -56,83 +56,38 @@ SignScreen::SignScreen(QWidget *parent)
 
 ////////////////////////////////////
 void SignScreen::signup_pressed(){
-    QFile file("data.txt");
-
-    // Try to open the file in Write-Only mode
-    if (!file.open(QIODevice::Append | QIODevice::Text)) {
-        qDebug() << "Failed to open the file for writing.";
+    int signed_up = db.signup(user_name_edit->text(),password_edit->text());
+    if(signed_up == 1){
+        msgBox.setText("Signed Up Succesfully");
+        msgBox.exec();
     }
-
-    // Create a QTextStream object to write to the file
-    QTextStream out(&file);
-
-    // Write data to the file
-    out << user_name_edit->text() << ':' << password_edit->text() << Qt::endl;
-    //out << "This is a line written to the file." << Qt::endl;
-
-    // Close the file
-    file.close();
+    else if(signed_up == 2){
+        msgBox.setText("username is already registered");
+        msgBox.exec();
+    }
+    else{
+        msgBox.setText("error in the database");
+        msgBox.exec();
+    }
 }
 
 ////////////////////////////////////////////////
 void SignScreen::login_pressed(){
-    QFile file("data.txt");
 
-    // Try to open the file in Read-Only mode
-    if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
-        qDebug() << "Failed to open the file for reading.";
-    }
+    int logged_in = db.login(user_name_edit->text(),password_edit->text());
 
-    // Create QStringLists to store text before ':' and after ':'
-    QStringList usernames;
-    QStringList passwords;
 
-    // Create a QTextStream object to read from the file
-    QTextStream in(&file);
 
-    // Read the file line by line
-    while (!in.atEnd()) {
-        QString line = in.readLine();
-
-        // Split the line into two parts based on ':'
-        QStringList parts = line.split(':');
-
-        // Ensure the line has exactly two parts
-        if (parts.size() == 2) {
-            usernames.append(parts[0]);
-            passwords.append(parts[1]);
-        } else {
-            qDebug() << "Invalid line format:" << line;
-        }
-    }
-
-    // Close the file
-    file.close();
-    QString username = user_name_edit->text();
-    QString password = password_edit->text();
-
-    int index = usernames.indexOf(username);
-
-    if (index != 1){
-        if (password == passwords[index]){
+    if (logged_in == 1){
             MainScreen *mainScreen = new MainScreen();
-            mainScreen->setUserName(username.toStdString());
+            mainScreen->setUserName(user_name_edit->text().toStdString());
             mainScreen->show();
             this->hide();
-        }
-        else{
-            msgBox.setText("Wrong username or password");
-            msgBox.exec();
-        }
-
     }
     else{
-        msgBox.setText("Wrong username or password");
-        msgBox.exec();
+
+            msgBox.setText("Wrong username or password");
+            msgBox.exec();
     }
 
-
-    // Output the contents of the arrays
-    //qDebug() << "Usernames:" << usernames;
-    //qDebug() << "Passwords:" << passwords;
 }
