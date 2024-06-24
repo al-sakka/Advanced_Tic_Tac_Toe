@@ -48,7 +48,7 @@ SignScreen::SignScreen(QWidget *parent)
     button_layout->addWidget(login);
     button_layout->addWidget(signup);
     main_layout->addLayout(button_layout);
-
+    db.createTable();
     connect(signup, &QPushButton::clicked, this, &SignScreen::signup_pressed);
     connect(login, &QPushButton::clicked, this, &SignScreen::login_pressed);
 }
@@ -80,7 +80,7 @@ void SignScreen::login_pressed(){
 
     if (logged_in == 1){
             MainScreen *mainScreen = new MainScreen();
-            mainScreen->setUserName(user_name_edit->text().toStdString());
+            mainScreen->setUserName(user_name_edit->text());
             mainScreen->show();
             this->hide();
     }

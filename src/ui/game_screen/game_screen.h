@@ -1,4 +1,4 @@
-#ifndef GAME_SCREEN_H
+﻿#ifndef GAME_SCREEN_H
 #define GAME_SCREEN_H
 
 #include <QMainWindow>
@@ -7,12 +7,14 @@
 #include <QMessageBox>
 #include <QPushButton>
 #include <QHBoxLayout>
-#include <QGraphicsDropShadowEffect>
 #include <QLabel>
+#include <QtDebug>
+#include <limits>
 #include "CellButton.h"
 #include "../../../utilities/Buttons/custom_button.h"
 #include "../../../utilities/main_includes.h"
 #include "../main_screen/main_screen.h"
+#include "../sign_screen/database.h"
 
 class GameScreen : public QWidget
 {
@@ -22,22 +24,40 @@ public:
     explicit GameScreen(QWidget *parent = nullptr);
     ~GameScreen();
 
-private slots:
-    void handleReturnClicked();
-    void handleResetButtonClicked();
-    void handleButtonClick(int row, int col, QPushButton *button);
-    bool checkWinner();
-
+    void setMode(const int &mode);
+    void setUsername(QString &username);
 private:
-    enum class Player { X, O };
-    QPushButton *cellButtons[3][3];
-    Player currentPlayer = Player::X;
 
+    QVBoxLayout *mainLayout;
+    QVBoxLayout *centralLayout;
+    QHBoxLayout *buttonLayout;
     Custom_Button *resetButton;
     Custom_Button *ReturnMenu;
-    Custom_Button *MatchHistory;
-    QMessageBox msgBox;
-    QVBoxLayout *mainLayout;
+    enum class Player { X, O };
+    Player currentPlayer;
+    CellButton *cellButtons[3][3];
+    char gameData[3][3];
+    bool gameEnded;
+    int mode;
+    QString username;
+    QLabel *modeLabel;
+    Database db;
+    void handleResetButtonClicked();
+    void handleReturnClicked();
+    void handleButtonClick(int row, int col, QPushButton *button);
+    bool checkDraw();
+    bool checkWinner();
+    void disableGameButtons();
+    void enableGameButtons();
+    void btnsToArray();
+    void makeMoveEasy();
+    void makeMoveNormal();
+    void makeMoveHard();
+    int minimax(int depth, bool isMax, int maxDepth);
+    int evaluateBoard();
+    bool isMovesLeft();
+    void makeBestMove(int maxDepth);
 };
+
 
 #endif // GAME_SCREEN_H

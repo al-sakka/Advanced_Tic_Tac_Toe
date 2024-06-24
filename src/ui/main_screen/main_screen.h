@@ -13,10 +13,7 @@
 #include "../../../utilities/Animation/animation.h"
 #include "../game_screen/game_screen.h"
 #include "../sign_screen/sign_screen.h"
-
-// namespace Ui {
-// class MainScreen;
-// }
+#include "../history_screen/history_screen.h"
 
 class MainScreen : public QWidget
 {
@@ -24,8 +21,9 @@ class MainScreen : public QWidget
 
 public:
     explicit MainScreen(QWidget *parent = nullptr);
-    void setUserName(const std::string &userName);
+    void setUserName(QString userName);
     void handleLogout();
+    void handleHistory();
     void handleMultiplayer();
     void handleSingleplayerEasy();
     void handleSingleplayerNormal();
@@ -34,7 +32,7 @@ signals:
     // void multiplayerButtonClicked();
 private:
     // Ui::MainScreen *ui;
-    std::string userName;
+    QString userName;
 };
 
 #endif // MAIN_SCREEN_H

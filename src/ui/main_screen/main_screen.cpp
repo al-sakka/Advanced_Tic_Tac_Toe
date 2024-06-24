@@ -16,16 +16,33 @@ MainScreen::MainScreen(QWidget *parent) :
     // Create a horizontal layout for the toolbar
     QHBoxLayout *toolbarLayout = new QHBoxLayout();
     toolbarLayout->setSpacing(10);
-    toolbarLayout->setAlignment(Qt::AlignLeft | Qt::AlignTop);
+    toolbarLayout->setAlignment(Qt::AlignTop); // Align top without specific alignment for left or right
 
     // Create the logout button
-    Custom_Button *logoutButton = new Custom_Button("<", this);
+    Custom_Button *logoutButton = new Custom_Button("↩", this);
+
+    QFont bannerFont("Segoe UI", 15);
+    logoutButton->setFont(bannerFont);
+
     logoutButton->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
     toolbarLayout->addWidget(logoutButton);
     connect(logoutButton, &Custom_Button::clicked, this, &MainScreen::handleLogout);
 
+    // Add a spacer to push the history button to the right
+    QSpacerItem *spacer = new QSpacerItem(40, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
+    toolbarLayout->addItem(spacer);
+
+    // Create the History button
+    Custom_Button *historyButton = new Custom_Button("≡", this);
+    historyButton->setFont(bannerFont);
+
+    historyButton->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
+    toolbarLayout->addWidget(historyButton);
+    connect(historyButton, &Custom_Button::clicked, this, &MainScreen::handleHistory);
+
     // Add the toolbar layout to the main layout
     mainLayout->addLayout(toolbarLayout);
+
 
     // Add spacing
     mainLayout->addSpacing(80);
@@ -47,24 +64,41 @@ MainScreen::MainScreen(QWidget *parent) :
     mainLayout->addSpacing(20);
 
     Custom_Button *custButton = new Custom_Button("Multiplayer", this);
+
+    QFont btnFont("Segoe UI", 15, QFont::Bold);
+    custButton->setFont(btnFont);
+
     custButton->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Preferred);
     mainLayout->addWidget(custButton);
     connect(custButton, &Custom_Button::clicked, this, &MainScreen::handleMultiplayer);
 
     Custom_Button *custButton2 = new Custom_Button("Single Player", this);
+
+    custButton2->setFont(btnFont);
+
     custButton2->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Preferred);
     mainLayout->addWidget(custButton2);
 
     // Create the difficulty buttons (easy, normal, hard)
     Custom_Button *easyButton = new Custom_Button("Easy", this);
+
+    QFont btn2Font("Segoe UI", 10);
+    easyButton->setFont(btn2Font);
+
     easyButton->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Preferred);
     connect(easyButton, &Custom_Button::clicked, this, &MainScreen::handleSingleplayerEasy);
 
     Custom_Button *normalButton = new Custom_Button("Normal", this);
+
+    normalButton->setFont(btn2Font);
+
     normalButton->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Preferred);
     connect(normalButton, &Custom_Button::clicked, this, &MainScreen::handleSingleplayerNormal);
 
     Custom_Button *hardButton = new Custom_Button("Hard", this);
+
+    hardButton->setFont(btn2Font);
+
     hardButton->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Preferred);
     connect(hardButton, &Custom_Button::clicked, this, &MainScreen::handleSingleplayerHard);
 
@@ -100,33 +134,60 @@ MainScreen::MainScreen(QWidget *parent) :
     });
 }
 
-void MainScreen::setUserName(const std::string &userName) {
+void MainScreen::setUserName(QString userName)
+{
     this->userName = userName;
     QLabel *userLabel = findChild<QLabel *>();
     if (userLabel)
-        userLabel->setText(QString::fromStdString("Welcome back, " + userName));
+        userLabel->setText(("Welcome back, " + userName));
 }
 
-void MainScreen::handleLogout() {
+void MainScreen::handleLogout()
+{
     SignScreen *signWindow = new SignScreen();
     signWindow->show();
     this->hide();
 }
 
-void MainScreen::handleMultiplayer() {
-    GameScreen *mainWindow = new GameScreen();
-    mainWindow->show();
+void MainScreen::handleHistory()
+{
+    HistoryScreen *historyWindow = new HistoryScreen();
+    historyWindow->show();
     this->hide();
 }
 
-void MainScreen::handleSingleplayerEasy() {
-    //
+void MainScreen::handleMultiplayer()
+{
+    GameScreen *gameWindow = new GameScreen();
+    gameWindow->setUsername(this->userName);
+    gameWindow->setMode(0);
+    gameWindow->show();
+    this->hide();
 }
 
-void MainScreen::handleSingleplayerNormal() {
-    //
+void MainScreen::handleSingleplayerEasy()
+{
+    GameScreen *gameWindow = new GameScreen();
+    gameWindow->setUsername(this->userName);
+    gameWindow->setMode(1);
+    gameWindow->show();
+    this->hide();
 }
 
-void MainScreen::handleSingleplayerHard() {
-    //
+void MainScreen::handleSingleplayerNormal()
+{
+    GameScreen *gameWindow = new GameScreen();
+    gameWindow->setUsername(this->userName);
+    gameWindow->setMode(2);
+    gameWindow->show();
+    this->hide();
+}
+
+void MainScreen::handleSingleplayerHard()
+{
+    GameScreen *gameWindow = new GameScreen();
+    gameWindow->setUsername(this->userName);
+    gameWindow->setMode(3);
+    gameWindow->show();
+    this->hide();
 }
