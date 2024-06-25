@@ -429,8 +429,26 @@ void GameScreen::handleButtonClick(int row, int col, QPushButton *button)
             }
         }
     }
-    if (gameEnded)
-        db.addGameHistory(this->username,this->gameData,this->mode);
+    QString btn;
+    // Disable all game buttons
+    for (int row = 0; row < 3; ++row)
+    {
+        for (int col = 0; col < 3; ++col)
+        {
+            btn = (cellButtons[row][col]->text());
+            if (btn == "X" || btn == "O")
+                gameData[row][col] = btn.at(0).toLatin1();
+            else
+                gameData[row][col] = ' ';
+        }
+    }
+    Database::currentMove cm(gameData);
+    movesHistory.append(cm);
+    //qDebug() << "Grid saved \n";
+    if (gameEnded){
+        qDebug() << mode << '\n';
+        db.addGameHistory(this->username, mode, this->movesHistory);
+    }
 }
 
 ////////////////////////////////////////

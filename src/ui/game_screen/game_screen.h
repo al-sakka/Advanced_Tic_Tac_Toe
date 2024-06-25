@@ -10,6 +10,7 @@
 #include <QLabel>
 #include <QtDebug>
 #include <limits>
+#include <QList>
 #include "CellButton.h"
 #include "../../../utilities/Buttons/custom_button.h"
 #include "../../../utilities/main_includes.h"
@@ -42,6 +43,7 @@ private:
     QString username;
     QLabel *modeLabel;
     Database db;
+    QList<Database::currentMove> movesHistory;
     void handleResetButtonClicked();
     void handleReturnClicked();
     void handleButtonClick(int row, int col, QPushButton *button);

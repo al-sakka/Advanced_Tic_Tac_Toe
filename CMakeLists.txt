@@ -43,6 +43,10 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         src/ui/sign_screen/database.cpp
 
         src/ui/history_screen/history_screen.h src/ui/history_screen/history_screen.cpp src/ui/history_screen/historyscreen.ui
+        src/ui/game_screen/CellButton.cpp src/ui/game_screen/CellButton.h src/ui/game_screen/game_screen.cpp src/ui/game_screen/game_screen.h src/ui/game_screen/gamescreen.ui src/ui/history_screen/history_screen.cpp src/ui/history_screen/history_screen.h src/ui/history_screen/historyscreen.ui src/ui/main_screen/main_screen.cpp src/ui/main_screen/main_screen.h src/ui/main_screen/mainscreen.ui src/ui/sign_screen/database.cpp src/ui/sign_screen/database.h src/ui/sign_screen/sign_screen.cpp src/ui/sign_screen/sign_screen.h src/ui/sign_screen/signscreen.ui
+        src/ui/replay_screen/mainwindow.ui
+        src/ui/replay_screen/replayscreen.h src/ui/replay_screen/replayscreen.cpp
+        src/ui/replay_screen/CellButtonR.cpp src/ui/replay_screen/CellButtonR.h
     )
 # Define target properties for Android with Qt 6 as:
 #    set_property(TARGET Advanced-Tic-Tac-Toe APPEND PROPERTY QT_ANDROID_PACKAGE_SOURCE_DIR

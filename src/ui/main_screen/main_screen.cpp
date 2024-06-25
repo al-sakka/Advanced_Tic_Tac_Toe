@@ -153,6 +153,7 @@ void MainScreen::handleHistory()
 {
     HistoryScreen *historyWindow = new HistoryScreen();
     historyWindow->show();
+    historyWindow->setUserName(this->userName);
     this->hide();
 }
 

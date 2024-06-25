@@ -1,0 +1,79 @@
+{
+	"configurations" : 
+	[
+		{
+			"directories" : 
+			[
+				{
+					"build" : ".",
+					"hasInstallRule" : true,
+					"jsonFile" : "directory-.-Debug-9dcc115d7d54ecd4346c.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.16"
+					},
+					"projectIndex" : 0,
+					"source" : ".",
+					"targetIndexes" : 
+					[
+						0,
+						1,
+						2
+					]
+				}
+			],
+			"name" : "Debug",
+			"projects" : 
+			[
+				{
+					"directoryIndexes" : 
+					[
+						0
+					],
+					"name" : "Advanced-Tic-Tac-Toe",
+					"targetIndexes" : 
+					[
+						0,
+						1,
+						2
+					]
+				}
+			],
+			"targets" : 
+			[
+				{
+					"directoryIndex" : 0,
+					"id" : "Advanced-Tic-Tac-Toe::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-Advanced-Tic-Tac-Toe-Debug-112ea005bac35409a619.json",
+					"name" : "Advanced-Tic-Tac-Toe",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "Advanced-Tic-Tac-Toe_autogen::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-Advanced-Tic-Tac-Toe_autogen-Debug-a98f435c0f516ce12502.json",
+					"name" : "Advanced-Tic-Tac-Toe_autogen",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "Advanced-Tic-Tac-Toe_autogen_timestamp_deps::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-Advanced-Tic-Tac-Toe_autogen_timestamp_deps-Debug-c36df99d839d3ebffaa4.json",
+					"name" : "Advanced-Tic-Tac-Toe_autogen_timestamp_deps",
+					"projectIndex" : 0
+				}
+			]
+		}
+	],
+	"kind" : "codemodel",
+	"paths" : 
+	{
+		"build" : "D:/Study/My Projects/Embedded Systems - XO/xo/Advanced_Tic_Tac_Toe/build/Desktop_Qt_6_7_0_MinGW_64_bit-Debug",
+		"source" : "D:/Study/My Projects/Embedded Systems - XO/xo/Advanced_Tic_Tac_Toe"
+	},
+	"version" : 
+	{
+		"major" : 2,
+		"minor" : 6
+	}
+}

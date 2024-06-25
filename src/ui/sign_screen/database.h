@@ -16,22 +16,44 @@ public:
     Database();
     ~Database();
     QString username;
+
+    struct currentMove{
+        char cMove[3][3];
+        currentMove(char CMove[3][3]){
+            for (int i = 0;i<3;i++){
+                for (int j = 0;j<3;j++){
+                    cMove[i][j] = CMove[i][j];
+                }
+            }
+        }
+    };
     struct GameHistoryEntry {
+        int gameId;
         QString username;
         QString timestamp;
-        char matrix[3][3];
+        int mode;
+        QList<currentMove> movesHistory;
     };
+    QList<currentMove> movesHistory;
     QList<GameHistoryEntry> getAllGameHistory();
     void createTable();
     void createGameTable();
     void connClose();
     bool connOpen();
-    int signup(QString username,QString password);
-    int login(QString username,QString password);
-    void addGameHistory(const QString &username, const char matrix[3][3],int mode);
+    int signup(QString username, QString password);
+    int login(QString username, QString password);
+    void addGameHistory0(const QString &username, const char matrix[3][3], int mode);
+    bool addGameHistory(const QString &username, int mode, QList<currentMove> movesHistory);
+    QList<currentMove> getGameHistory(int gameId);
+    char (&getBoard(int gameId, int index))[3][3];
+
 
 private:
     QSqlDatabase xodb;
+
+    QString serializeMovesHistory(QList<currentMove> movesHistory);
+    QList<currentMove> deserializeMovesHistory(const QString &jsonString);
+
 
 
 

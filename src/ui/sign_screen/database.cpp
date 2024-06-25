@@ -28,7 +28,7 @@ void Database::createGameTable()
     query.exec("CREATE TABLE IF NOT EXISTS GAMEHISTORY("
                "GameID INTEGER PRIMARY KEY AUTOINCREMENT, "
                "USERNAME TEXT NOT NULL, "
-               "matrix_column TEXT, "
+               "moves_history TEXT, "
                "timestamp DATETIME DEFAULT CURRENT_TIMESTAMP, "
                "MODE INTEGER, "
                "FOREIGN KEY(username) REFERENCES PlayerData(username))"
@@ -108,8 +108,117 @@ int Database::login(QString username, QString password)
         }
     }
 }
+QString Database::serializeMovesHistory(QList<currentMove>movesHistory) {
+    QJsonArray jsonArray;
+    for (const auto &move : movesHistory) {
+        QJsonArray rowArray;
+        for (int i = 0; i < 3; ++i) {
+            QJsonArray colArray;
+            for (int j = 0; j < 3; ++j) {
+                colArray.append(QJsonValue(QChar(move.cMove[i][j])));
+            }
+            rowArray.append(colArray);
+        }
+        jsonArray.append(rowArray);
+    }
+    QJsonDocument jsonDoc(jsonArray);
+    return jsonDoc.toJson(QJsonDocument::Compact);
+}
 
-void Database::addGameHistory(const QString &username, const char matrix[3][3], int mode)
+QList<Database::currentMove> Database::deserializeMovesHistory(const QString &jsonString) {
+    QList<currentMove> movesHistory;
+    QJsonDocument jsonDoc = QJsonDocument::fromJson(jsonString.toUtf8());
+    QJsonArray jsonArray = jsonDoc.array();
+
+    for (const auto &jsonMove : jsonArray) {
+        QJsonArray rowArray = jsonMove.toArray();
+        char matrix[3][3];
+        for (int i = 0; i < 3; ++i) {
+            QJsonArray colArray = rowArray[i].toArray();
+            for (int j = 0; j < 3; ++j) {
+                matrix[i][j] = colArray[j].toString().at(0).toLatin1();
+            }
+        }
+        movesHistory.append(currentMove(matrix));
+    }
+
+    return movesHistory;
+}
+
+
+
+bool Database::addGameHistory(const QString &username, int mode, QList<currentMove> movesHistory) {
+    connOpen();
+    QSqlQuery query;
+    query.prepare("INSERT INTO GAMEHISTORY (username, mode, moves_history) VALUES (:username, :mode, :moves_history)");
+    query.bindValue(":username", username);
+    query.bindValue(":mode", mode);
+    query.bindValue(":moves_history", serializeMovesHistory(movesHistory));
+    if (!query.exec()) {
+        qDebug() << "Failed to add game history:" << query.lastError();
+        query.clear();
+        connClose();
+        return false;
+    }
+    query.clear();
+    connClose();
+    return true;
+
+}
+
+QList<Database::currentMove> Database::getGameHistory(int gameId) {
+    QSqlQuery query;
+    query.prepare("SELECT moves_history FROM GameHistory WHERE game_id = :game_id");
+    query.bindValue(":game_id", gameId);
+
+    if (!query.exec()) {
+        qDebug() << "Failed to retrieve game history:" << query.lastError();
+        return QList<currentMove>();
+    }
+
+    if (query.next()) {
+        QString jsonString = query.value(0).toString();
+        return deserializeMovesHistory(jsonString);
+    }
+
+    return QList<currentMove>();
+}
+
+
+
+QList<Database::GameHistoryEntry> Database::getAllGameHistory() {
+    connOpen();
+    QList<GameHistoryEntry> allGamesHistory;
+    QSqlQuery query("SELECT GameID, username, timestamp, mode, moves_history FROM GAMEHISTORY");
+
+    if (!query.exec()) {
+        qDebug() << "Failed to retrieve all game histories:" << query.lastError();
+        return allGamesHistory;
+    }
+
+    while (query.next()) {
+        int gameId = query.value(0).toInt();
+        QString username = query.value(1).toString();
+        QString timestamp = query.value(2).toString();
+        int mode = query.value(3).toInt();
+        QString jsonString = query.value(4).toString();
+        QList<currentMove> movesHistory = deserializeMovesHistory(jsonString);
+        allGamesHistory.append ({gameId, username, timestamp, mode, movesHistory});
+    }
+    query.clear();
+    connClose();
+    return allGamesHistory;
+}
+
+
+
+
+
+
+
+
+
+void Database::addGameHistory0(const QString &username, const char matrix[3][3], int mode)
 {
     connOpen();
     QJsonArray jsonArray;
@@ -135,38 +244,40 @@ void Database::addGameHistory(const QString &username, const char matrix[3][3], 
     connClose();
 }
 
-QList<Database::GameHistoryEntry> Database::getAllGameHistory(){
-    connOpen();
-    QList<GameHistoryEntry> history;
-    QSqlQuery query("SELECT username, matrix_column, timestamp FROM GameHistory");
+// QList<Database::GameHistoryEntry> Database::getAllGameHistory0(){
+//     connOpen();
+//     QList<GameHistoryEntry> history;
+//     QSqlQuery query("SELECT username, matrix_column, timestamp FROM GameHistory");
 
-    if (!query.exec()) {
-        qDebug() << "Failed to retrieve game history:" << query.lastError();
-        return history;
-    }
+//     if (!query.exec()) {
+//         qDebug() << "Failed to retrieve game history:" << query.lastError();
+//         return history;
+//     }
 
-    while (query.next()) {
-        GameHistoryEntry entry;
-        entry.username = query.value(0).toString();
-        QString jsonString = query.value(1).toString();
-        QJsonDocument jsonDoc = QJsonDocument::fromJson(jsonString.toUtf8());
-        QJsonArray jsonArray = jsonDoc.array();
+//     while (query.next()) {
+//         GameHistoryEntry entry;
+//         entry.username = query.value(0).toString();
+//         QString jsonString = query.value(1).toString();
+//         QJsonDocument jsonDoc = QJsonDocument::fromJson(jsonString.toUtf8());
+//         QJsonArray jsonArray = jsonDoc.array();
 
-        for (int i = 0; i < 3; ++i) {
-            QJsonArray rowArray = jsonArray[i].toArray();
-            for (int j = 0; j < 3; ++j) {
-                entry.matrix[i][j] = rowArray[j].toString().at(0).toLatin1();
-            }
-        }
+//         for (int i = 0; i < 3; ++i) {
+//             QJsonArray rowArray = jsonArray[i].toArray();
+//             for (int j = 0; j < 3; ++j) {
+//                 entry.matrix[i][j] = rowArray[j].toString().at(0).toLatin1();
+//             }
+//         }
 
-        entry.timestamp = query.value(2).toString();
-        history.append(entry);
-    }
-    connClose();
-    //query.clear();
-    return history;
+//         entry.timestamp = query.value(2).toString();
+//         history.append(entry);
+//     }
+//     connClose();
+//     //query.clear();
+//     return history;
 
-}
+// }
+
+
 
 
 

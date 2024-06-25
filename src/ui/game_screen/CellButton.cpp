@@ -15,8 +15,6 @@ CellButton::CellButton(GameScreen *parent) : QPushButton(parent), mainWindow(par
 
 
 
-
-
 // void CellButton::setCurrentPlayer(int player) {
 //     currentPlayer_ = player;
 // }

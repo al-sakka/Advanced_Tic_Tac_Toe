@@ -1,9 +1,11 @@
-D:/study/My\ Projects/Embedded\ Systems\ -\ XO/xo/Advanced_Tic_Tac_Toe/build/Desktop_Qt_6_7_0_MinGW_64_bit-Debug/Advanced-Tic-Tac-Toe_autogen/2CKE3NNRIR/moc_sign_screen.cpp: D:/study/My\ Projects/Embedded\ Systems\ -\ XO/xo/Advanced_Tic_Tac_Toe/src/ui/sign_screen/sign_screen.h \
-  D:/study/My\ Projects/Embedded\ Systems\ -\ XO/xo/Advanced_Tic_Tac_Toe/build/Desktop_Qt_6_7_0_MinGW_64_bit-Debug/Advanced-Tic-Tac-Toe_autogen/moc_predefs.h \
+D:/Study/My\ Projects/Embedded\ Systems\ -\ XO/xo/Advanced_Tic_Tac_Toe/build/Desktop_Qt_6_7_0_MinGW_64_bit-Debug/Advanced-Tic-Tac-Toe_autogen/2CKE3NNRIR/moc_sign_screen.cpp: D:/Study/My\ Projects/Embedded\ Systems\ -\ XO/xo/Advanced_Tic_Tac_Toe/src/ui/sign_screen/sign_screen.h \
+  D:/Study/My\ Projects/Embedded\ Systems\ -\ XO/xo/Advanced_Tic_Tac_Toe/build/Desktop_Qt_6_7_0_MinGW_64_bit-Debug/Advanced-Tic-Tac-Toe_autogen/moc_predefs.h \
   C:/Qt/6.7.0/mingw_64/include/QtCore/QDeadlineTimer \
   C:/Qt/6.7.0/mingw_64/include/QtCore/QFile \
   C:/Qt/6.7.0/mingw_64/include/QtCore/QFileInfo \
   C:/Qt/6.7.0/mingw_64/include/QtCore/QHash \
+  C:/Qt/6.7.0/mingw_64/include/QtCore/QJsonArray \
+  C:/Qt/6.7.0/mingw_64/include/QtCore/QJsonDocument \
   C:/Qt/6.7.0/mingw_64/include/QtCore/QList \
   C:/Qt/6.7.0/mingw_64/include/QtCore/QMap \
   C:/Qt/6.7.0/mingw_64/include/QtCore/QMutex \
@@ -274,7 +276,6 @@ D:/study/My\ Projects/Embedded\ Systems\ -\ XO/xo/Advanced_Tic_Tac_Toe/build/Des
   C:/Qt/6.7.0/mingw_64/include/QtCore/qxpfunctional.h \
   C:/Qt/6.7.0/mingw_64/include/QtCore/qxptype_traits.h \
   C:/Qt/6.7.0/mingw_64/include/QtCore/qyieldcpu.h \
-  C:/Qt/6.7.0/mingw_64/include/QtGui/QPixmap \
   C:/Qt/6.7.0/mingw_64/include/QtGui/qaction.h \
   C:/Qt/6.7.0/mingw_64/include/QtGui/qbitmap.h \
   C:/Qt/6.7.0/mingw_64/include/QtGui/qbrush.h \
@@ -330,8 +331,8 @@ D:/study/My\ Projects/Embedded\ Systems\ -\ XO/xo/Advanced_Tic_Tac_Toe/build/Des
   C:/Qt/6.7.0/mingw_64/include/QtSql/qtsqlglobal.h \
   C:/Qt/6.7.0/mingw_64/include/QtSql/qtsqlversion.h \
   C:/Qt/6.7.0/mingw_64/include/QtWidgets/QApplication \
-  C:/Qt/6.7.0/mingw_64/include/QtWidgets/QGraphicsDropShadowEffect \
   C:/Qt/6.7.0/mingw_64/include/QtWidgets/QGraphicsOpacityEffect \
+  C:/Qt/6.7.0/mingw_64/include/QtWidgets/QGroupBox \
   C:/Qt/6.7.0/mingw_64/include/QtWidgets/QHBoxLayout \
   C:/Qt/6.7.0/mingw_64/include/QtWidgets/QLabel \
   C:/Qt/6.7.0/mingw_64/include/QtWidgets/QLayout \
@@ -339,6 +340,7 @@ D:/study/My\ Projects/Embedded\ Systems\ -\ XO/xo/Advanced_Tic_Tac_Toe/build/Des
   C:/Qt/6.7.0/mingw_64/include/QtWidgets/QMainWindow \
   C:/Qt/6.7.0/mingw_64/include/QtWidgets/QMessageBox \
   C:/Qt/6.7.0/mingw_64/include/QtWidgets/QPushButton \
+  C:/Qt/6.7.0/mingw_64/include/QtWidgets/QScrollArea \
   C:/Qt/6.7.0/mingw_64/include/QtWidgets/QVBoxLayout \
   C:/Qt/6.7.0/mingw_64/include/QtWidgets/QWidget \
   C:/Qt/6.7.0/mingw_64/include/QtWidgets/qabstractbutton.h \
@@ -355,6 +357,7 @@ D:/study/My\ Projects/Embedded\ Systems\ -\ XO/xo/Advanced_Tic_Tac_Toe/build/Des
   C:/Qt/6.7.0/mingw_64/include/QtWidgets/qframe.h \
   C:/Qt/6.7.0/mingw_64/include/QtWidgets/qgraphicseffect.h \
   C:/Qt/6.7.0/mingw_64/include/QtWidgets/qgridlayout.h \
+  C:/Qt/6.7.0/mingw_64/include/QtWidgets/qgroupbox.h \
   C:/Qt/6.7.0/mingw_64/include/QtWidgets/qlabel.h \
   C:/Qt/6.7.0/mingw_64/include/QtWidgets/qlayout.h \
   C:/Qt/6.7.0/mingw_64/include/QtWidgets/qlayoutitem.h \
@@ -364,6 +367,7 @@ D:/study/My\ Projects/Embedded\ Systems\ -\ XO/xo/Advanced_Tic_Tac_Toe/build/Des
   C:/Qt/6.7.0/mingw_64/include/QtWidgets/qmessagebox.h \
   C:/Qt/6.7.0/mingw_64/include/QtWidgets/qpushbutton.h \
   C:/Qt/6.7.0/mingw_64/include/QtWidgets/qrubberband.h \
+  C:/Qt/6.7.0/mingw_64/include/QtWidgets/qscrollarea.h \
   C:/Qt/6.7.0/mingw_64/include/QtWidgets/qsizepolicy.h \
   C:/Qt/6.7.0/mingw_64/include/QtWidgets/qslider.h \
   C:/Qt/6.7.0/mingw_64/include/QtWidgets/qstyle.h \
@@ -699,11 +703,14 @@ D:/study/My\ Projects/Embedded\ Systems\ -\ XO/xo/Advanced_Tic_Tac_Toe/build/Des
   C:/Qt/Tools/mingw1120_64/x86_64-w64-mingw32/include/vadefs.h \
   C:/Qt/Tools/mingw1120_64/x86_64-w64-mingw32/include/wchar.h \
   C:/Qt/Tools/mingw1120_64/x86_64-w64-mingw32/include/wctype.h \
-  D:/study/My\ Projects/Embedded\ Systems\ -\ XO/xo/Advanced_Tic_Tac_Toe/src/ui/game_screen/CellButton.h \
-  D:/study/My\ Projects/Embedded\ Systems\ -\ XO/xo/Advanced_Tic_Tac_Toe/src/ui/game_screen/game_screen.h \
-  D:/study/My\ Projects/Embedded\ Systems\ -\ XO/xo/Advanced_Tic_Tac_Toe/src/ui/main_screen/main_screen.h \
-  D:/study/My\ Projects/Embedded\ Systems\ -\ XO/xo/Advanced_Tic_Tac_Toe/src/ui/sign_screen/database.h \
-  D:/study/My\ Projects/Embedded\ Systems\ -\ XO/xo/Advanced_Tic_Tac_Toe/src/ui/sign_screen/sign_screen.h \
-  D:/study/My\ Projects/Embedded\ Systems\ -\ XO/xo/Advanced_Tic_Tac_Toe/utilities/Animation/animation.h \
-  D:/study/My\ Projects/Embedded\ Systems\ -\ XO/xo/Advanced_Tic_Tac_Toe/utilities/Buttons/custom_button.h \
-  D:/study/My\ Projects/Embedded\ Systems\ -\ XO/xo/Advanced_Tic_Tac_Toe/utilities/main_includes.h
+  D:/Study/My\ Projects/Embedded\ Systems\ -\ XO/xo/Advanced_Tic_Tac_Toe/src/ui/game_screen/CellButton.h \
+  D:/Study/My\ Projects/Embedded\ Systems\ -\ XO/xo/Advanced_Tic_Tac_Toe/src/ui/game_screen/game_screen.h \
+  D:/Study/My\ Projects/Embedded\ Systems\ -\ XO/xo/Advanced_Tic_Tac_Toe/src/ui/history_screen/history_screen.h \
+  D:/Study/My\ Projects/Embedded\ Systems\ -\ XO/xo/Advanced_Tic_Tac_Toe/src/ui/main_screen/main_screen.h \
+  D:/Study/My\ Projects/Embedded\ Systems\ -\ XO/xo/Advanced_Tic_Tac_Toe/src/ui/replay_screen/CellButtonR.h \
+  D:/Study/My\ Projects/Embedded\ Systems\ -\ XO/xo/Advanced_Tic_Tac_Toe/src/ui/replay_screen/replayscreen.h \
+  D:/Study/My\ Projects/Embedded\ Systems\ -\ XO/xo/Advanced_Tic_Tac_Toe/src/ui/sign_screen/database.h \
+  D:/Study/My\ Projects/Embedded\ Systems\ -\ XO/xo/Advanced_Tic_Tac_Toe/src/ui/sign_screen/sign_screen.h \
+  D:/Study/My\ Projects/Embedded\ Systems\ -\ XO/xo/Advanced_Tic_Tac_Toe/utilities/Animation/animation.h \
+  D:/Study/My\ Projects/Embedded\ Systems\ -\ XO/xo/Advanced_Tic_Tac_Toe/utilities/Buttons/custom_button.h \
+  D:/Study/My\ Projects/Embedded\ Systems\ -\ XO/xo/Advanced_Tic_Tac_Toe/utilities/main_includes.h

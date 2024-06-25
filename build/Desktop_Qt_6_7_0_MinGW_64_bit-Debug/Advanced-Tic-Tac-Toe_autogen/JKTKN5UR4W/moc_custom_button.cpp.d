@@ -1,5 +1,5 @@
-D:/study/My\ Projects/Embedded\ Systems\ -\ XO/xo/Advanced_Tic_Tac_Toe/build/Desktop_Qt_6_7_0_MinGW_64_bit-Debug/Advanced-Tic-Tac-Toe_autogen/JKTKN5UR4W/moc_custom_button.cpp: D:/study/My\ Projects/Embedded\ Systems\ -\ XO/xo/Advanced_Tic_Tac_Toe/utilities/Buttons/custom_button.h \
-  D:/study/My\ Projects/Embedded\ Systems\ -\ XO/xo/Advanced_Tic_Tac_Toe/build/Desktop_Qt_6_7_0_MinGW_64_bit-Debug/Advanced-Tic-Tac-Toe_autogen/moc_predefs.h \
+D:/Study/My\ Projects/Embedded\ Systems\ -\ XO/xo/Advanced_Tic_Tac_Toe/build/Desktop_Qt_6_7_0_MinGW_64_bit-Debug/Advanced-Tic-Tac-Toe_autogen/JKTKN5UR4W/moc_custom_button.cpp: D:/Study/My\ Projects/Embedded\ Systems\ -\ XO/xo/Advanced_Tic_Tac_Toe/utilities/Buttons/custom_button.h \
+  D:/Study/My\ Projects/Embedded\ Systems\ -\ XO/xo/Advanced_Tic_Tac_Toe/build/Desktop_Qt_6_7_0_MinGW_64_bit-Debug/Advanced-Tic-Tac-Toe_autogen/moc_predefs.h \
   C:/Qt/6.7.0/mingw_64/include/QtCore/q20functional.h \
   C:/Qt/6.7.0/mingw_64/include/QtCore/q20memory.h \
   C:/Qt/6.7.0/mingw_64/include/QtCore/q20type_traits.h \
