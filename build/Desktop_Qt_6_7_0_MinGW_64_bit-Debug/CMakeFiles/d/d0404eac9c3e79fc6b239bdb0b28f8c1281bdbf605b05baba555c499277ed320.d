@@ -1,4 +1,5 @@
 Advanced-Tic-Tac-Toe_autogen/timestamp: \
+  C:/Qt/6.7.0/mingw_64/include/QtCore/QCryptographicHash \
   C:/Qt/6.7.0/mingw_64/include/QtCore/QDeadlineTimer \
   C:/Qt/6.7.0/mingw_64/include/QtCore/QFile \
   C:/Qt/6.7.0/mingw_64/include/QtCore/QFileInfo \
@@ -12,6 +13,7 @@ Advanced-Tic-Tac-Toe_autogen/timestamp: \
   C:/Qt/6.7.0/mingw_64/include/QtCore/QPropertyAnimation \
   C:/Qt/6.7.0/mingw_64/include/QtCore/QString \
   C:/Qt/6.7.0/mingw_64/include/QtCore/QStringList \
+  C:/Qt/6.7.0/mingw_64/include/QtCore/QThread \
   C:/Qt/6.7.0/mingw_64/include/QtCore/QVariant \
   C:/Qt/6.7.0/mingw_64/include/QtCore/QtCore \
   C:/Qt/6.7.0/mingw_64/include/QtCore/QtCoreDepends \

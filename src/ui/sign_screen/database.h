@@ -7,6 +7,7 @@
 #include <QJsonArray>
 #include <QJsonDocument>
 #include <QVariant>
+#include <QCryptographicHash>
 
 
 using namespace std;

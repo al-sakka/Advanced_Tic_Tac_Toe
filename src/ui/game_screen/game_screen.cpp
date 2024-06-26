@@ -283,6 +283,7 @@ void GameScreen::btnsToArray()
 
 void GameScreen::handleButtonClick(int row, int col, QPushButton *button)
 {
+
     if(this->mode == 0)
     // Multiplayer mode
     {
@@ -340,7 +341,7 @@ void GameScreen::handleButtonClick(int row, int col, QPushButton *button)
         {
             button->setText("X");
             button->setStyleSheet("background-color: #333333; border: 2px solid #49FF00; border-radius: 20px; color: #49FF00; font-size: 80px");
-
+            //QThread::msleep(500);
             // Check for a winner
             if (checkWinner())
             {
@@ -381,16 +382,19 @@ void GameScreen::handleButtonClick(int row, int col, QPushButton *button)
                 if(this->mode == 1)
                 {
                     // Easy Mode
+                    updateHistory();
                     makeMoveEasy();
                 }
                 else if(this->mode == 2)
                 {
                     // Normal Mode
+                    updateHistory();
                     makeMoveNormal();
                 }
                 else if(this->mode == 3)
                 {
                     // Hard Mode
+                    updateHistory();
                     makeMoveHard();
                 }
 
@@ -429,21 +433,8 @@ void GameScreen::handleButtonClick(int row, int col, QPushButton *button)
             }
         }
     }
-    QString btn;
     // Disable all game buttons
-    for (int row = 0; row < 3; ++row)
-    {
-        for (int col = 0; col < 3; ++col)
-        {
-            btn = (cellButtons[row][col]->text());
-            if (btn == "X" || btn == "O")
-                gameData[row][col] = btn.at(0).toLatin1();
-            else
-                gameData[row][col] = ' ';
-        }
-    }
-    Database::currentMove cm(gameData);
-    movesHistory.append(cm);
+    updateHistory();
     //qDebug() << "Grid saved \n";
     if (gameEnded){
         qDebug() << mode << '\n';
@@ -639,3 +630,21 @@ void GameScreen::makeMoveHard()
     makeBestMove(HARD_MODE_DEPTH);
 }
 
+void GameScreen::updateHistory()
+{
+    QString btn;
+    for (int row = 0; row < 3; ++row)
+    {
+        for (int col = 0; col < 3; ++col)
+        {
+            btn = (cellButtons[row][col]->text());
+            if (btn == "X" || btn == "O")
+                gameData[row][col] = btn.at(0).toLatin1();
+            else
+                gameData[row][col] = ' ';
+        }
+    }
+    Database::currentMove cm(gameData);
+    movesHistory.append(cm);
+
+}

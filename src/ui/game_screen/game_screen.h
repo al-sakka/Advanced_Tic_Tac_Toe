@@ -16,6 +16,7 @@
 #include "../../../utilities/main_includes.h"
 #include "../main_screen/main_screen.h"
 #include "../sign_screen/database.h"
+#include <QThread>
 
 class GameScreen : public QWidget
 {
@@ -59,6 +60,7 @@ private:
     int evaluateBoard();
     bool isMovesLeft();
     void makeBestMove(int maxDepth);
+    void updateHistory();
 };
 
 

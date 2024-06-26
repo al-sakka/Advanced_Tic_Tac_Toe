@@ -150,6 +150,10 @@ void ReplayScreen::ShowButtons()
             // connect(button, &QPushButton::clicked, this, [=](){ handleButtonClick(row, col, button); });
             char c = entry.movesHistory.at(movIndex).cMove[row][col];
             button->setText(QString(QChar::fromLatin1(c)));
+            if (c == 'X')
+                button->setStyleSheet("background-color: #333333; border: 2px solid #49FF00; border-radius: 20px; color: #49FF00; font-size: 80px");
+            else if (c == 'O')
+                button->setStyleSheet("background-color: #333333; border: 2px solid #FF1E00; border-radius: 20px; color: #FF1E00; font-size: 80px");
             cellButtons[row][col] = button; // Store the button in your array for later use
         }
     }
@@ -164,6 +168,12 @@ void ReplayScreen::UpdateButtons()
             button = cellButtons[row][col]; // Store the button in your array for later use
             char c = entry.movesHistory.at(movIndex).cMove[row][col];
             button->setText(QString(QChar::fromLatin1(c)));
+            if (c == 'X')
+                button->setStyleSheet("background-color: #333333; border: 2px solid #49FF00; border-radius: 20px; color: #49FF00; font-size: 80px");
+            else if (c == 'O')
+                button->setStyleSheet("background-color: #333333; border: 2px solid #FF1E00; border-radius: 20px; color: #FF1E00; font-size: 80px");
+            else
+                button->setStyleSheet("background-color: #333333; border: 2px solid white; border-radius: 20px; color: white; font-size: 80px");
             cellButtons[row][col] = button;
         }
     }

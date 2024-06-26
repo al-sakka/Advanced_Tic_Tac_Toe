@@ -46,7 +46,7 @@ HistoryScreen::HistoryScreen(QWidget *parent) :
     QWidget *historyWidget = new QWidget;
     QVBoxLayout *historyLayout = new QVBoxLayout(historyWidget);
     historyLayout->setAlignment(Qt::AlignTop);
-
+    std::reverse(history.begin(), history.end());
     // Populate the history layout with game history entries
     for (const auto &entry : history) {
         QGroupBox *groupBox = new QGroupBox("Game History Entry");
@@ -54,22 +54,28 @@ HistoryScreen::HistoryScreen(QWidget *parent) :
 
         QLabel *usernameLabel = new QLabel("Username: " + entry.username);
         QLabel *timestampLabel = new QLabel("Timestamp: " + entry.timestamp);
+        QString MD;
+        switch(entry.mode){
+            case 0:
+                MD = "Multiplayer";
+                break;
+            case 1:
+                MD = "Easy Mode";
+                break;
+            case 2:
+                MD = "Normal Mode";
+                break;
+            case 3:
+                MD = "Hard Mode";
+                break;
+        }
+
+        QLabel *modelLabel = new QLabel("Mode: " + MD);
 
         groupBoxLayout->addWidget(usernameLabel);
         groupBoxLayout->addWidget(timestampLabel);
+        groupBoxLayout->addWidget(modelLabel);
 
-        QLabel *matrixLabel = new QLabel("Matrix:");
-        groupBoxLayout->addWidget(matrixLabel);
-
-        for (int i = 0; i < 3; ++i) {
-            QString row;
-            for (int j = 0; j < 3; ++j) {
-                row += entry.movesHistory.at(entry.movesHistory.length() - 1).cMove[i][j];
-                if (j < 2) row += " ";
-            }
-            QLabel *rowLabel = new QLabel(row);
-            groupBoxLayout->addWidget(rowLabel);
-        }
 
         // Create and add the "Show Game" button
         Custom_Button *moreButton = new Custom_Button("Show Game", this);

@@ -1,5 +1,6 @@
 D:/Study/My\ Projects/Embedded\ Systems\ -\ XO/xo/Advanced_Tic_Tac_Toe/build/Desktop_Qt_6_7_0_MinGW_64_bit-Debug/Advanced-Tic-Tac-Toe_autogen/RB56HY3QDX/moc_game_screen.cpp: D:/Study/My\ Projects/Embedded\ Systems\ -\ XO/xo/Advanced_Tic_Tac_Toe/src/ui/game_screen/game_screen.h \
   D:/Study/My\ Projects/Embedded\ Systems\ -\ XO/xo/Advanced_Tic_Tac_Toe/build/Desktop_Qt_6_7_0_MinGW_64_bit-Debug/Advanced-Tic-Tac-Toe_autogen/moc_predefs.h \
+  C:/Qt/6.7.0/mingw_64/include/QtCore/QCryptographicHash \
   C:/Qt/6.7.0/mingw_64/include/QtCore/QDeadlineTimer \
   C:/Qt/6.7.0/mingw_64/include/QtCore/QFile \
   C:/Qt/6.7.0/mingw_64/include/QtCore/QFileInfo \
@@ -13,6 +14,7 @@ D:/Study/My\ Projects/Embedded\ Systems\ -\ XO/xo/Advanced_Tic_Tac_Toe/build/Des
   C:/Qt/6.7.0/mingw_64/include/QtCore/QPropertyAnimation \
   C:/Qt/6.7.0/mingw_64/include/QtCore/QString \
   C:/Qt/6.7.0/mingw_64/include/QtCore/QStringList \
+  C:/Qt/6.7.0/mingw_64/include/QtCore/QThread \
   C:/Qt/6.7.0/mingw_64/include/QtCore/QVariant \
   C:/Qt/6.7.0/mingw_64/include/QtCore/QtCore \
   C:/Qt/6.7.0/mingw_64/include/QtCore/QtCoreDepends \

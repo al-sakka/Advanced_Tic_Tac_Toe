@@ -63,10 +63,11 @@ int Database::signup(QString username,QString password)
 {
     connOpen();
     // return codes: 1-inserted succesfully , 0-Error ,2-Username is already registered
+    QByteArray hashedPassword = QCryptographicHash::hash(password.toUtf8(), QCryptographicHash::Sha256).toHex();
     QSqlQuery query;
     query.prepare("INSERT INTO PLAYERDATA (USERNAME , PASSWORD) VALUES (?,?)");
     query.addBindValue(username);
-    query.addBindValue(password);
+    query.addBindValue(hashedPassword);
     if (!query.exec()){
         QSqlError last_error = query.lastError();
         if(last_error.nativeErrorCode() == "2067"){
@@ -87,9 +88,12 @@ int Database::signup(QString username,QString password)
 
 int Database::login(QString username, QString password)
 {
+    QByteArray hashedPassword = QCryptographicHash::hash(password.toUtf8(), QCryptographicHash::Sha256).toHex();
     connOpen();
     QSqlQuery query;
-    query.prepare( "SELECT * FROM PLAYERDATA WHERE USERNAME = '"+username+"' AND PASSWORD = '"+password+"' ");
+    query.prepare("INSERT INTO PLAYERDATA (USERNAME, PASSWORD) VALUES (?, ?)");
+    query.addBindValue(username);
+    query.addBindValue(hashedPassword); // Store the hashed password
     if (query.exec()){
         int count = 0;
         while(query.next()){
@@ -103,6 +107,7 @@ int Database::login(QString username, QString password)
         }
         else{
             qDebug() << "wrong username or password";
+            qDebug() << hashedPassword <<"\n";
             connClose();
             return 0;
         }
