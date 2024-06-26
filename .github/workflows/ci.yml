@@ -9,7 +9,7 @@ on:
 jobs:
   build-and-package:
     runs-on: windows-latest
-
+    steps:
           # Checkout the repository and submodules
       - name: Checkout repository and submodules
         uses: actions/checkout@v2
