@@ -27,23 +27,12 @@ jobs:
     - name: Build with CMake
       run: cmake --build build --config Release
 
-    - name: Create Release
-      id: create_release
-      uses: actions/create-release@v1
-      env:
-        GITHUB_TOKEN: ${{ secrets.PAT_TOKEN }}
-      with:
-        tag_name: v1.0.0
-        release_name: Release v1.0.0
-        draft: false
-        prerelease: false
-
     - name: Upload Release Asset
       uses: actions/upload-release-asset@v1
       env:
-        GITHUB_TOKEN: ${{ secrets.PAT_TOKEN }}
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
-        upload_url: ${{ steps.create_release.outputs.upload_url }}
-        asset_path: build/YourExecutable
-        asset_name: YourExecutable
+        upload_url: https://uploads.github.com/repos/${{ github.repository }}/releases/${{ github.run_id }}/assets{?name,label}
+        asset_path: build/Advanced_Tic_Tac_Toe
+        asset_name: Advanced_Tic_Tac_Toe
         asset_content_type: application/octet-stream
