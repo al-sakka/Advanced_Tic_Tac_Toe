@@ -22,7 +22,7 @@ jobs:
         version: '6.7.0'  # Qt version you are using
         host: windows
         target: desktop
-        arch: mingw_64  # MinGW architecture
+        arch: 'win64_mingw'
         dir: ${{ runner.temp }}/qt
         setup-python: 'false'
 
