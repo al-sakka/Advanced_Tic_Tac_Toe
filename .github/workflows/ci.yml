@@ -10,39 +10,25 @@ on:
 
 jobs:
   build:
-    runs-on: windows-latest
+    runs-on: ubuntu-latest
 
     steps:
     - name: Checkout repository
-      uses: actions/checkout@v4
+      uses: actions/checkout@latest
 
-    - name: Set up Qt
-      uses: jurplel/install-qt-action@v4
-      with:
-        version: '6.7.0'  # Qt version you are using
-        host: windows
-        target: desktop
-        arch: 'win64_mingw'
-        dir: ${{ runner.temp }}/qt
-        setup-python: 'false'
-
-    - name: Set up CMake
-      uses: lukka/get-cmake@latest
-      with:
-        cmake-version: '3.24.2'  # or the version of CMake you are using
+    - name: Install dependencies
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y qt6-base-dev qt6-tools-dev qt6-tools-dev-tools build-essential cmake
 
     - name: Configure with CMake
-      run: cmake -B build -S . -DCMAKE_PREFIX_PATH=${{ runner.temp }}/qt/6.7.0/mingw_64 -G "MinGW Makefiles"
+      run: cmake -B build -S . -DCMAKE_PREFIX_PATH=/usr/lib/qt6
 
     - name: Build with CMake
       run: cmake --build build --config Release
 
-    - name: Deploy with windeployqt
-      run: |
-        ${{ runner.temp }}/qt/6.7.0/mingw_64/bin/windeployqt.exe --dir build/Release --release build/Release/YourExecutable.exe
-
     - name: Archive build output
-      uses: actions/upload-artifact@v4
+      uses: actions/upload-artifact@latest
       with:
         name: Build
-        path: build/Release/
+        path: build/
