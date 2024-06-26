@@ -53,13 +53,20 @@ jobs:
           sudo apt-get install -y cmake ninja-build libgl1-mesa-dev libxkbcommon-x11-0 libxcb-icccm4 libxcb-image0 libxcb-keysyms1 libxcb-render-util0 libxcb-xinerama0 libzstd-dev
 
       #
+      # Set Qt6_DIR environment variable
+      #
+      - name: Set Qt6_DIR
+        run: |
+          echo "Qt6_DIR=$QTDIR/lib/cmake/Qt6" >> $GITHUB_ENV
+
+      #
       # Configure and build using CMake (using a different build directory)
       #
       - name: Configure and build
         run: |
           mkdir build_github_actions
           cd build_github_actions
-          cmake -G "Ninja" ..
+          cmake -G "Ninja" -DCMAKE_PREFIX_PATH=$QTDIR/lib/cmake/Qt6 ..
           cmake --build .
 
       #
@@ -106,36 +113,42 @@ jobs:
       # Install CMake
       #
       - name: Install CMake
-        run: brew install cmake
+        run: |
+          brew install cmake
 
       #
-      # Configure and build using CMake (using a different build directory)
+      # Configure and build using CMake (using Makefiles)
       #
       - name: Configure and build
         run: |
-          mkdir build_github_actions
-          cd build_github_actions
-          cmake -G "Ninja" ..
-          cmake --build .
+          mkdir build
+          cd build
+          cmake -DCMAKE_BUILD_TYPE=Release ..
+          make -j$(sysctl -n hw.logicalcpu)
 
       #
-      # Package and zip the macOS application
+      # Deploy application (adjust as per your deployment steps)
       #
-      - name: Package macOS app
+      - name: Deploy app
         run: |
-          macdeployqt ${EXECUTABLE}.app -always-overwrite
+          macdeployqt ${EXECUTABLE}.app -qmldir="${QML_DIR_NIX}"
           mv ${EXECUTABLE}.app ${APPLICATION}.app
-          ditto -c -k --sequesterRsrc --keepParent ${APPLICATION}.app ${EXECUTABLE}-${VERSION}-macOS.zip
-          rm -rf ${APPLICATION}.app  # Clean up macOS application directory
 
       #
-      # Upload the macOS ZIP artifact
+      # Create ZIP file for distribution
+      #
+      - name: Create ZIP file
+        run: |
+          ditto -c -k --sequesterRsrc --keepParent ${APPLICATION}.app ${EXECUTABLE}-${VERSION}-macOS.zip
+
+      #
+      # Upload ZIP to build artifacts
       #
       - name: Upload ZIP
         uses: actions/upload-artifact@v2
         with:
-          name: ${{env.EXECUTABLE}}-${{env.VERSION}}-macOS.zip
-          path: ${{env.EXECUTABLE}}-${{env.VERSION}}-macOS.zip
+          name: ${EXECUTABLE}-${VERSION}-macOS.zip
+          path: ${EXECUTABLE}-${VERSION}-macOS.zip
 
   #
   # Windows build
@@ -152,13 +165,18 @@ jobs:
           submodules: recursive
 
       #
-      # Configure MSVC
+      # Install Chocolatey
       #
-      - name: Configure MSVC
-        uses: ilammy/msvc-dev-cmd@v1
-        with:
-          arch: x64
-          spectre: true
+      - name: Install Chocolatey
+        run: |
+          Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))
+
+      #
+      # Install cmake and ninja using Chocolatey
+      #
+      - name: Install cmake and ninja
+        run: |
+          choco install -y cmake ninja
 
       #
       # Install Qt
@@ -167,44 +185,24 @@ jobs:
         uses: jurplel/install-qt-action@v2
 
       #
-      # Install CMake and other dependencies using Scoop
-      #
-      - name: Install CMake and dependencies
-        run: |
-          scoop install cmake ninja
-
-      #
-      # Configure and build using CMake (using a different build directory)
+      # Configure and build using CMake (using Ninja)
       #
       - name: Configure and build
         run: |
-          mkdir build_github_actions
-          cd build_github_actions
-          cmake -G "Ninja" ..
-          cmake --build .
+          mkdir build
+          cd build
+          cmake -G "Ninja" -DCMAKE_BUILD_TYPE=Release ..
+          ninja
 
       #
-      # Deploy and package the Windows application using NSIS
+      # Package application (if necessary for your project)
       #
-      - name: Deploy and package Windows app
-        run: |
-          mkdir bin
-          move build\\${EXECUTABLE}.exe bin
-          windeployqt bin\\${EXECUTABLE}.exe --compiler-runtime
-          mkdir "${APPLICATION}"
-          move bin "${APPLICATION}"
-          xcopy deploy\\windows\\resources\\icon.ico "${APPLICATION}"
-
-          move "${APPLICATION}" deploy\\windows\\nsis\\
-          cd deploy\\windows\\nsis
-          makensis /X"SetCompressor /FINAL lzma" setup.nsi
-          ren *.exe ${EXECUTABLE}-${VERSION}-Windows.exe
 
       #
-      # Upload the Windows installer artifact
+      # Upload artifacts (adjust as per your project's needs)
       #
-      - name: Upload NSIS installer
+      - name: Upload artifacts
         uses: actions/upload-artifact@v2
         with:
-          name: ${{env.EXECUTABLE}}-${{env.VERSION}}-Windows.exe
-          path: deploy/windows/nsis/${{env.EXECUTABLE}}-${{env.VERSION}}-Windows.exe
+          name: ${EXECUTABLE}-${VERSION}-Windows
+          path: build/${EXECUTABLE}.exe
