@@ -9,8 +9,9 @@ on:
 jobs:
   build-and-package:
     runs-on: windows-latest
+
     steps:
-          # Checkout the repository and submodules
+      # Checkout the repository and submodules
       - name: Checkout repository and submodules
         uses: actions/checkout@v2
         with:
@@ -25,13 +26,15 @@ jobs:
 
       # Install Qt
       - name: Install Qt
-        uses: jurplel/install-qt-action@v2
+        uses: jurplel/install-qt-action@v4
         with:
           version: '6.7.0'
           host: 'windows'
           target: 'desktop'
           arch: 'win64_msvc2019_64'
           dir: 'C:/Qt'
+          install-deps: 'true'
+          
 
       # Configure CMake
       - name: Configure CMake
@@ -41,25 +44,33 @@ jobs:
       - name: Build with CMake
         run: cmake --build build --config Release
 
-      # Download windeployqt
-      - name: Download windeployqt
+      # Create deployment directory and copy necessary files
+      - name: Prepare deployment
         run: |
-          mkdir tools
-          Invoke-WebRequest -Uri https://download.qt.io/official_releases/qt/6.7/6.7.0/bin/windows/x64/windeployqt.exe -OutFile tools/windeployqt.exe
+          mkdir deploy
+          mkdir deploy/Advanced-Tic-Tac-Toe
+          mkdir deploy/Advanced-Tic-Tac-Toe/platforms
+          mkdir deploy/Advanced-Tic-Tac-Toe/styles
+          mkdir deploy/Advanced-Tic-Tac-Toe/imageformats
+          mkdir deploy/Advanced-Tic-Tac-Toe/iconengines
 
-      # Deploy Qt dependencies using windeployqt
-      - name: Deploy Qt dependencies
-        run: |
-          mkdir bin
-          move build/Release/Advanced-Tic-Tac-Toe.exe bin
-          tools/windeployqt.exe bin/Advanced-Tic-Tac-Toe.exe --compiler-runtime
-          mkdir "Advanced-Tic-Tac-Toe"
-          move bin "Advanced-Tic-Tac-Toe"
+          # Copy executable and Qt DLLs
+          cp build/Release/Advanced-Tic-Tac-Toe.exe deploy/Advanced-Tic-Tac-Toe/
+          cp C:/Qt/6.7.0/msvc2019_64/bin/Qt6Core.dll deploy/Advanced-Tic-Tac-Toe/
+          cp C:/Qt/6.7.0/msvc2019_64/bin/Qt6Widgets.dll deploy/Advanced-Tic-Tac-Toe/
+          cp C:/Qt/6.7.0/msvc2019_64/bin/Qt6Gui.dll deploy/Advanced-Tic-Tac-Toe/
+          cp C:/Qt/6.7.0/msvc2019_64/bin/Qt6Sql.dll deploy/Advanced-Tic-Tac-Toe/
+
+          # Copy necessary plugins (adjust as per your project requirements)
+          cp -r C:/Qt/6.7.0/msvc2019_64/plugins/platforms/qwindows.dll deploy/Advanced-Tic-Tac-Toe/platforms/
+          cp -r C:/Qt/6.7.0/msvc2019_64/plugins/styles/qwindowsvistastyle.dll deploy/Advanced-Tic-Tac-Toe/styles/
+          cp -r C:/Qt/6.7.0/msvc2019_64/plugins/imageformats/qico.dll deploy/Advanced-Tic-Tac-Toe/imageformats/
+          cp -r C:/Qt/6.7.0/msvc2019_64/plugins/iconengines/qsvgicon.dll deploy/Advanced-Tic-Tac-Toe/iconengines/
 
       # Create NSIS installer
       - name: Create NSIS installer
         run: |
-          move "Advanced-Tic-Tac-Toe" deploy/windows/nsis/
+          mv deploy/Advanced-Tic-Tac-Toe deploy/windows/nsis/
           cd deploy/windows/nsis
           makensis /X"SetCompressor /FINAL lzma" setup.nsi
           ren *.exe Advanced-Tic-Tac-Toe-${{ github.run_number }}-Windows.exe
