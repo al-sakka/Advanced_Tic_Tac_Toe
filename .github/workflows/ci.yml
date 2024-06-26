@@ -59,6 +59,12 @@ jobs:
         run: |
              cmake -B build -DCMAKE_BUILD_TYPE=Release
              cmake --build build -- -j8
+
+      #
+      # Debugging: List contents of the build directory
+      #
+      - name: List build directory
+        run: ls -la build
              
       #
       # Create the AppImage
@@ -66,7 +72,7 @@ jobs:
       - name: Create AppImage
         run: | 
              mkdir -p appdir/usr/bin
-             cp build/${{env.EXECUTABLE}} appdir/usr/bin/
+             cp build/${{env.EXECUTABLE}} appdir/usr/bin/  # Adjust this line if the executable name or location is different
              wget -c -nv "https://github.com/probonopd/linuxdeployqt/releases/download/continuous/linuxdeployqt-continuous-x86_64.AppImage" -O linuxdeployqt
              chmod a+x linuxdeployqt
              ./linuxdeployqt appdir/usr/bin/${{env.EXECUTABLE}} -appimage -bundle-non-qt-libs
@@ -117,8 +123,7 @@ jobs:
       - name: Install Qt
         uses: jurplel/install-qt-action@v4
         with:
-          version: '6.7.0  '
-
+          version: '6.7.0'
           
       #
       # Install NSIS
