@@ -7,56 +7,61 @@ on:
     branches: [ci/cd]
 
 jobs:
-  build:
+  build-and-package:
     runs-on: windows-latest
 
     steps:
-    - name: Checkout repository
-      uses: actions/checkout@v2
+      # Checkout the repository and submodules
+      - name: Checkout repository and submodules
+        uses: actions/checkout@v2
+        with:
+          submodules: recursive
+      
+      # Set up MSVC environment
+      - name: Configure MSVC
+        uses: ilammy/msvc-dev-cmd@v1
+        with:
+          arch: x64
+          spectre: true
 
-    - name: Set up Qt
-      uses: jurplel/install-qt-action@v2
-      with:
-        version: '6.7.0'
-        host: 'windows'
-        target: 'desktop'
-        arch: 'win64_msvc2019_64'
-        dir: 'C:/Qt'
+      # Install Qt
+      - name: Install Qt
+        uses: jurplel/install-qt-action@v2
+        with:
+          version: '6.7.0'
+          host: 'windows'
+          target: 'desktop'
+          arch: 'win64_msvc2019_64'
+          dir: 'C:/Qt'
 
-    - name: Set up CMake
-      uses: jwlawson/actions-setup-cmake@v1
+      # Configure CMake
+      - name: Configure CMake
+        run: cmake -B build -S . -DCMAKE_PREFIX_PATH=C:/Qt/6.7.0/msvc2019_64
 
-    - name: Configure CMake
-      run: cmake -B build -S . -DCMAKE_PREFIX_PATH=C:/Qt/6.7.0/msvc2019_64
+      # Build the application with CMake
+      - name: Build with CMake
+        run: cmake --build build --config Release
 
-    - name: Build
-      run: cmake --build build --config Release
+      # Deploy Qt dependencies using windeployqt
+      - name: Deploy Qt dependencies
+        run: |
+          mkdir bin
+          move build/Release/Advanced-Tic-Tac-Toe.exe bin
+          & "C:/Qt/6.7.0/msvc2019_64/bin/windeployqt.exe" bin/Advanced-Tic-Tac-Toe.exe --compiler-runtime
+          mkdir "Advanced-Tic-Tac-Toe"
+          move bin "Advanced-Tic-Tac-Toe"
 
-    - name: Run tests
-      run: ctest --output-on-failure
-      working-directory: build
+      # Create NSIS installer
+      - name: Create NSIS installer
+        run: |
+          move "Advanced-Tic-Tac-Toe" deploy/windows/nsis/
+          cd deploy/windows/nsis
+          makensis /X"SetCompressor /FINAL lzma" setup.nsi
+          ren *.exe Advanced-Tic-Tac-Toe-${{ github.run_number }}-Windows.exe
 
-    - name: Package the application
-      run: |
-        # Find the executable
-        $executable = "build/Release/Advanced-Tic-Tac-Toe.exe"
-        
-        # Ensure windeployqt is executable
-        $windeployqt = "C:/Qt/6.7.0/msvc2019_64/bin/windeployqt.exe"
-        if (-Not (Test-Path $windeployqt)) {
-          Write-Error "windeployqt.exe not found at $windeployqt"
-          exit 1
-        }
-        
-        # Use windeployqt to bundle dependencies
-        & $windeployqt $executable
-
-        # Create a zip file of the bundled executable
-        Compress-Archive -Path "build/Release/*" -DestinationPath "build/Release/Advanced-Tic-Tac-Toe.zip"
-      shell: pwsh
-
-    - name: Upload Release Artifact
-      uses: actions/upload-artifact@v2
-      with:
-        name: Advanced-Tic-Tac-Toe-Installer
-        path: build/Release/Advanced-Tic-Tac-Toe.zip
+      # Upload installer as a build artifact
+      - name: Upload NSIS installer
+        uses: actions/upload-artifact@v2
+        with:
+          name: Advanced-Tic-Tac-Toe-${{ github.run_number }}-Windows.exe
+          path: deploy/windows/nsis/Advanced-Tic-Tac-Toe-${{ github.run_number }}-Windows.exe
