@@ -28,7 +28,7 @@ jobs:
       run: cmake --build build --config Release
 
     - name: Archive build output
-      uses: montudor/action-zip@v0.3.0
+      uses: montudor/action-zip@v1
       with:
         args: -r build.zip build/
 
