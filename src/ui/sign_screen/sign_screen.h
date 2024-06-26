@@ -9,6 +9,7 @@
 #include <QMessageBox>
 #include <QPushButton>
 #include <QLayout>
+#include <QPixmap>
 #include <QFile>
 #include "../../../utilities/Buttons/custom_button.h"
 #include "../../../utilities/main_includes.h"

@@ -5,10 +5,9 @@ SignScreen::SignScreen(QWidget *parent)
 {
     setFixedSize(standard_Width, standard_height);
     //setStyleSheet("background-color:blue;");
-    main_layout = new QVBoxLayout();
+    main_layout = new QVBoxLayout(this); // Set the main_layout directly with 'this' as parent
     main_layout->setAlignment(Qt::AlignCenter);
     main_layout->setContentsMargins(40, 0, 40, 0); // Set margin from right and left sides
-    setLayout(main_layout);
 
     // Header Label
     QLabel *headerLabel = new QLabel("Registration", this);
@@ -16,7 +15,7 @@ SignScreen::SignScreen(QWidget *parent)
     QFont font("Segoe UI", 24, QFont::Bold);
     headerLabel->setFont(font);
     main_layout->addWidget(headerLabel);
-    main_layout->addSpacing(80);
+    main_layout->addSpacing(120);
 
     // Username
     QVBoxLayout *user_name_layout = new QVBoxLayout(); // Define user_name_layout
@@ -48,46 +47,36 @@ SignScreen::SignScreen(QWidget *parent)
     button_layout->addWidget(login);
     button_layout->addWidget(signup);
     main_layout->addLayout(button_layout);
+
     db.createTable();
     connect(signup, &QPushButton::clicked, this, &SignScreen::signup_pressed);
     connect(login, &QPushButton::clicked, this, &SignScreen::login_pressed);
 }
 
-
-////////////////////////////////////
-void SignScreen::signup_pressed(){
-    int signed_up = db.signup(user_name_edit->text(),password_edit->text());
-    if(signed_up == 1){
-        msgBox.setText("Signed Up Succesfully");
+void SignScreen::signup_pressed() {
+    int signed_up = db.signup(user_name_edit->text(), password_edit->text());
+    if (signed_up == 1) {
+        msgBox.setText("Signed Up Successfully");
         msgBox.exec();
-    }
-    else if(signed_up == 2){
-        msgBox.setText("username is already registered");
+    } else if (signed_up == 2) {
+        msgBox.setText("Username is already registered");
         msgBox.exec();
-    }
-    else{
-        msgBox.setText("error in the database");
+    } else {
+        msgBox.setText("Error in the database");
         msgBox.exec();
     }
 }
 
-////////////////////////////////////////////////
-void SignScreen::login_pressed(){
+void SignScreen::login_pressed() {
+    int logged_in = db.login(user_name_edit->text(), password_edit->text());
 
-    int logged_in = db.login(user_name_edit->text(),password_edit->text());
-
-
-
-    if (logged_in == 1){
-            MainScreen *mainScreen = new MainScreen();
-            mainScreen->setUserName(user_name_edit->text());
-            mainScreen->show();
-            this->hide();
+    if (logged_in == 1) {
+        MainScreen *mainScreen = new MainScreen();
+        mainScreen->setUserName(user_name_edit->text());
+        mainScreen->show();
+        this->hide();
+    } else {
+        msgBox.setText("Wrong username or password");
+        msgBox.exec();
     }
-    else{
-
-            msgBox.setText("Wrong username or password");
-            msgBox.exec();
-    }
-
 }
