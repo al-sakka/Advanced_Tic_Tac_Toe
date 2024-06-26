@@ -32,7 +32,7 @@ jobs:
       run: cmake --build build --config Release
 
     - name: Create AppImage
-        run: |
+      run: |
           mkdir -p appdir/usr/bin  # Create directory structure for AppDir
           cp build/Advanced-Tic-Tac-Toe appdir/usr/bin/Advanced-Tic-Tac-Toe  # Copy your application binary
 
@@ -40,8 +40,8 @@ jobs:
 
           ./linuxdeployqt appdir/usr/bin/Advanced-Tic-Tac-Toe -bundle-non-qt-libs -appimage
 
-      - name: Upload AppImage Artifact
-        uses: actions/upload-artifact@v2
-        with:
+    - name: Upload AppImage Artifact
+      uses: actions/upload-artifact@v2
+      with:
           name: Advanced-Tic-Tac-Toe-x86_64.AppImage
           path: appdir/Advanced-Tic-Tac-Toe-x86_64.AppImage
