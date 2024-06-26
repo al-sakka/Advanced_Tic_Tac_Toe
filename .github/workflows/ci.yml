@@ -59,13 +59,25 @@ jobs:
         run: |
              cmake -B build -DCMAKE_BUILD_TYPE=Release
              cmake --build build -- -j8
-
+             
+      #
+      # Debugging: Check cmake build output
+      #
+      - name: Check cmake build output
+        run: cat build/CMakeFiles/CMakeOutput.log
+             
       #
       # Debugging: List contents of the build directory
       #
       - name: List build directory
         run: ls -la build
-             
+
+      #
+      # Debugging: Find the executable
+      #
+      - name: Find the executable
+        run: find build -name ${EXECUTABLE}
+
       #
       # Create the AppImage
       #
@@ -140,7 +152,7 @@ jobs:
       - name: Compile
         run: |
              cmake -B build -G "NMake Makefiles" -DCMAKE_BUILD_TYPE=Release
-             cmake --build build -- -j8
+             cmake --build build
              
       #
       # Copy Qt DLLs, compiler runtime & application icon
