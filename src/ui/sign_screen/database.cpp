@@ -49,7 +49,7 @@ void Database::connClose()
 bool Database::connOpen()
 {
     xodb = QSqlDatabase::addDatabase("QSQLITE");
-    xodb.setDatabaseName("D:\\database1.db");
+    xodb.setDatabaseName("database.db");
 
     if(!xodb.open()){
         qDebug() << "Failed to open the database "<<"\n";

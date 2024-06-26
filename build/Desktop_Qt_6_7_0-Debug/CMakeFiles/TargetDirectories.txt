@@ -1,0 +1,9 @@
+/media/sakka/My World/Programming/my_github/Advanced-Tic-Tac-Toe/Advanced_Tic_Tac_Toe/build/Desktop_Qt_6_7_0-Debug/CMakeFiles/Advanced-Tic-Tac-Toe.dir
+/media/sakka/My World/Programming/my_github/Advanced-Tic-Tac-Toe/Advanced_Tic_Tac_Toe/build/Desktop_Qt_6_7_0-Debug/CMakeFiles/edit_cache.dir
+/media/sakka/My World/Programming/my_github/Advanced-Tic-Tac-Toe/Advanced_Tic_Tac_Toe/build/Desktop_Qt_6_7_0-Debug/CMakeFiles/rebuild_cache.dir
+/media/sakka/My World/Programming/my_github/Advanced-Tic-Tac-Toe/Advanced_Tic_Tac_Toe/build/Desktop_Qt_6_7_0-Debug/CMakeFiles/list_install_components.dir
+/media/sakka/My World/Programming/my_github/Advanced-Tic-Tac-Toe/Advanced_Tic_Tac_Toe/build/Desktop_Qt_6_7_0-Debug/CMakeFiles/install.dir
+/media/sakka/My World/Programming/my_github/Advanced-Tic-Tac-Toe/Advanced_Tic_Tac_Toe/build/Desktop_Qt_6_7_0-Debug/CMakeFiles/install/local.dir
+/media/sakka/My World/Programming/my_github/Advanced-Tic-Tac-Toe/Advanced_Tic_Tac_Toe/build/Desktop_Qt_6_7_0-Debug/CMakeFiles/install/strip.dir
+/media/sakka/My World/Programming/my_github/Advanced-Tic-Tac-Toe/Advanced_Tic_Tac_Toe/build/Desktop_Qt_6_7_0-Debug/CMakeFiles/Advanced-Tic-Tac-Toe_autogen_timestamp_deps.dir
+/media/sakka/My World/Programming/my_github/Advanced-Tic-Tac-Toe/Advanced_Tic_Tac_Toe/build/Desktop_Qt_6_7_0-Debug/CMakeFiles/Advanced-Tic-Tac-Toe_autogen.dir
