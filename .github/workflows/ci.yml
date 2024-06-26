@@ -28,7 +28,7 @@ jobs:
   # GNU/Linux build (we run on Ubuntu 20.04)
   #
   build-linux:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-18.04
     steps:
       #
       # Checkout the repository
@@ -39,55 +39,39 @@ jobs:
           submodules: recursive
 
       #
-      # Install Qt
+      # Set up Qt environment
       #
-      - name: Install Qt
+      - name: Set up Qt
         uses: jurplel/install-qt-action@v2
+        with:
+          version: '6.x'  # Adjust to the specific version of Qt6 you're using
 
       #
-      # Install CMake and other dependencies
+      # Install build essentials
       #
-      - name: Install CMake and other dependencies
+      - name: Install build essentials
         run: |
           sudo apt-get update
-          sudo apt-get install -y cmake ninja-build libgl1-mesa-dev libxkbcommon-x11-0 libxcb-icccm4 libxcb-image0 libxcb-keysyms1 libxcb-render-util0 libxcb-xinerama0 libzstd-dev
+          sudo apt-get install -y build-essential
 
       #
-      # Set Qt6_DIR environment variable
-      #
-      - name: Set Qt6_DIR
-        run: |
-          echo "Qt6_DIR=$QTDIR/lib/cmake/Qt6" >> $GITHUB_ENV
-
-      #
-      # Configure and build using CMake (using a different build directory)
+      # Configure and build using CMake
       #
       - name: Configure and build
         run: |
-          mkdir build_github_actions
-          cd build_github_actions
-          cmake -G "Ninja" -DCMAKE_PREFIX_PATH=$QTDIR/lib/cmake/Qt6 ..
+          mkdir buildlinux
+          cd buildlinux
+          cmake -G "Ninja" -DCMAKE_PREFIX_PATH=$QTDIR/lib/cmake/Qt6 -DQt6_DIR=$QTDIR/lib/cmake/Qt6 ..
           cmake --build .
 
       #
-      # Package the application (AppImage)
+      # Upload artifacts (adjust as per your project's needs)
       #
-      - name: Package AppImage
-        run: |
-          mkdir appdir
-          make install DESTDIR=appdir
-          wget -c -nv "https://github.com/probonopd/linuxdeployqt/releases/download/continuous/linuxdeployqt-continuous-x86_64.AppImage" -O linuxdeployqt
-          chmod a+x linuxdeployqt
-          ./linuxdeployqt appdir/usr/share/applications/*.desktop -appimage -bundle-non-qt-libs
-
-      #
-      # Rename and upload the AppImage artifact
-      #
-      - name: Upload AppImage
+      - name: Upload artifacts
         uses: actions/upload-artifact@v2
         with:
-          name: ${{env.EXECUTABLE}}-${{env.VERSION}}-Linux.AppImage
-          path: ${{env.EXECUTABLE}}-${{env.VERSION}}-Linux.AppImage
+          name: ${EXECUTABLE}-${VERSION}-Linux
+          path: build/${EXECUTABLE}
 
   #
   # macOS build
@@ -189,8 +173,8 @@ jobs:
       #
       - name: Configure and build
         run: |
-          mkdir build
-          cd build
+          mkdir buildwindows
+          cd buildwindows
           cmake -G "Ninja" -DCMAKE_BUILD_TYPE=Release ..
           ninja
 
