@@ -55,21 +55,36 @@ jobs:
       #
       # Compile the application
       #
-      - name: Compile
+      - name: Configure with CMake
         run: |
              cmake -B build -DCMAKE_BUILD_TYPE=Release
+
+      #
+      # Debugging: List contents of the build directory after CMake configuration
+      #
+      - name: List build directory after CMake configuration
+        run: ls -la build/CMakeFiles
+
+      #
+      # Debugging: Check for CMake logs
+      #
+      - name: Check for CMake logs
+        run: |
+             if [ -f build/CMakeFiles/CMakeError.log ]; then
+               cat build/CMakeFiles/CMakeError.log
+             fi
+
+      #
+      # Continue the build process
+      #
+      - name: Continue Build
+        run: |
              cmake --build build -- -j8
-             
+
       #
-      # Debugging: Check cmake build output
+      # Debugging: List contents of the build directory after build
       #
-      - name: Check cmake build output
-        run: cat build/CMakeFiles/CMakeOutput.log
-             
-      #
-      # Debugging: List contents of the build directory
-      #
-      - name: List build directory
+      - name: List build directory after build
         run: ls -la build
 
       #
