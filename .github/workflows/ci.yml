@@ -1,83 +1,61 @@
-name: CI
+name: Deploy Windows Application
 
 on:
   push:
-    branches: [ci/cd]
+    branches:
+      - ci/cd
   pull_request:
-    branches: [ci/cd]
+    branches:
+      - ci/cd
 
 jobs:
-  build-and-package:
+  deploy:
     runs-on: windows-latest
-
+    
     steps:
-      # Checkout the repository and submodules
-      - name: Checkout repository and submodules
+      - name: Checkout repository
         uses: actions/checkout@v2
-        with:
-          submodules: recursive
       
-      # Set up MSVC environment
-      - name: Configure MSVC
+      - name: Set up MSVC environment
         uses: ilammy/msvc-dev-cmd@v1
         with:
           arch: x64
           spectre: true
-
-      # Install Qt
+      
       - name: Install Qt
         uses: jurplel/install-qt-action@v4
         with:
           version: '6.7.0'
           host: 'windows'
           target: 'desktop'
-          arch: 'win64_msvc2019_64'
-          dir: 'C:/Qt'
+          arch: 'win64_mingw81'
+          dir: '${{ github.workspace }}/qt'
           install-deps: 'true'
-          
-
-      # Configure CMake
+          set-env: 'true'
+          cache: 'true'
+      
       - name: Configure CMake
-        run: cmake -B build -S . -DCMAKE_PREFIX_PATH=C:/Qt/6.7.0/msvc2019_64
-
-      # Build the application with CMake
-      - name: Build with CMake
-        run: cmake --build build --config Release
-
-      # Create deployment directory and copy necessary files
-      - name: Prepare deployment
+        run: |
+          mkdir build
+          cd build
+          cmake -G "MinGW Makefiles" ..
+      
+      - name: Build project
+        run: |
+          cmake --build build --config Release
+      
+      - name: Deploy with windeployqt
         run: |
           mkdir deploy
-          mkdir deploy/Advanced-Tic-Tac-Toe
-          mkdir deploy/Advanced-Tic-Tac-Toe/platforms
-          mkdir deploy/Advanced-Tic-Tac-Toe/styles
-          mkdir deploy/Advanced-Tic-Tac-Toe/imageformats
-          mkdir deploy/Advanced-Tic-Tac-Toe/iconengines
-
-          # Copy executable and Qt DLLs
-          cp build/Release/Advanced-Tic-Tac-Toe.exe deploy/Advanced-Tic-Tac-Toe/
-          cp C:/Qt/6.7.0/msvc2019_64/bin/Qt6Core.dll deploy/Advanced-Tic-Tac-Toe/
-          cp C:/Qt/6.7.0/msvc2019_64/bin/Qt6Widgets.dll deploy/Advanced-Tic-Tac-Toe/
-          cp C:/Qt/6.7.0/msvc2019_64/bin/Qt6Gui.dll deploy/Advanced-Tic-Tac-Toe/
-          cp C:/Qt/6.7.0/msvc2019_64/bin/Qt6Sql.dll deploy/Advanced-Tic-Tac-Toe/
-
-          # Copy necessary plugins (adjust as per your project requirements)
-          cp -r C:/Qt/6.7.0/msvc2019_64/plugins/platforms/qwindows.dll deploy/Advanced-Tic-Tac-Toe/platforms/
-          cp -r C:/Qt/6.7.0/msvc2019_64/plugins/styles/qwindowsvistastyle.dll deploy/Advanced-Tic-Tac-Toe/styles/
-          cp -r C:/Qt/6.7.0/msvc2019_64/plugins/imageformats/qico.dll deploy/Advanced-Tic-Tac-Toe/imageformats/
-          cp -r C:/Qt/6.7.0/msvc2019_64/plugins/iconengines/qsvgicon.dll deploy/Advanced-Tic-Tac-Toe/iconengines/
-
-      # Create NSIS installer
-      - name: Create NSIS installer
+          cd deploy
+          ${{ github.workspace }}/qt/6.7.0/mingw_64/bin/windeployqt.exe ../build/Release/Advanced-Tic-Tac-Toe.exe --no-compiler-runtime --no-translations --no-opengl-sw
+      
+      - name: Create ZIP archive
         run: |
-          mv deploy/Advanced-Tic-Tac-Toe deploy/windows/nsis/
-          cd deploy/windows/nsis
-          makensis /X"SetCompressor /FINAL lzma" setup.nsi
-          ren *.exe Advanced-Tic-Tac-Toe-${{ github.run_number }}-Windows.exe
-
-      # Upload installer as a build artifact
-      - name: Upload NSIS installer
+          Compress-Archive -Path deploy/* -DestinationPath Advanced-Tic-Tac-Toe-Windows.zip
+      
+      - name: Upload artifacts
         uses: actions/upload-artifact@v2
         with:
-          name: Advanced-Tic-Tac-Toe-${{ github.run_number }}-Windows.exe
-          path: deploy/windows/nsis/Advanced-Tic-Tac-Toe-${{ github.run_number }}-Windows.exe
+          name: Advanced-Tic-Tac-Toe-Windows
+          path: Advanced-Tic-Tac-Toe-Windows.zip
