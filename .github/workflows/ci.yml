@@ -14,7 +14,7 @@ jobs:
 
     steps:
     - name: Checkout repository
-      uses: actions/checkout@v2
+      uses: actions/checkout@v4
 
     - name: Set up Qt
       uses: jurplel/install-qt-action@v4
@@ -27,7 +27,7 @@ jobs:
         setup-python: 'false'
 
     - name: Set up CMake
-      uses: lukka/get-cmake@v3
+      uses: lukka/get-cmake@latest
       with:
         cmake-version: '3.24.2'  # or the version of CMake you are using
 
@@ -42,7 +42,7 @@ jobs:
         ${{ runner.temp }}/qt/6.7.0/mingw_64/bin/windeployqt.exe --dir build/Release --release build/Release/YourExecutable.exe
 
     - name: Archive build output
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: Build
         path: build/Release/
