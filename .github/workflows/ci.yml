@@ -4,9 +4,7 @@
 
 name: Build
 on:
-  push:               # Run on push to any branch
-    branches:
-      - main        # Change this to your main branch name if different
+  push:               # Run on push
   pull_request:       # Run on pull-request
 
 #--------------------------------------------------------------------------------
@@ -15,9 +13,8 @@ on:
 
 env:
   VERSION: "1.0.0"
-  EXECUTABLE: "QtApp"  # Change this to your executable name
-  APPLICATION: "Qt App"  # Change this to your application name
-  CMAKE_PROJECT: "CMakeLists.txt"
+  EXECUTABLE: "QtApp"
+  APPLICATION: "Qt App"
 
 #--------------------------------------------------------------------------------
 # Workflow jobs (GNU/Linux, macOS & Windows)
@@ -25,10 +22,10 @@ env:
 
 jobs:
   #
-  # GNU/Linux build (we run on Ubuntu 20.04)
+  # GNU/Linux build (we run on Ubuntu 16.04 to generate AppImage)
   #
   build-linux:
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-16.04
     steps:
       #
       # Checkout the repository
@@ -39,40 +36,54 @@ jobs:
           submodules: recursive
 
       #
-      # Set up Qt environment
+      # Install Qt
       #
-      - name: Set up Qt
+      - name: Install Qt
         uses: jurplel/install-qt-action@v2
-        with:
-          version: '6.x'  # Adjust to the specific version of Qt6 you're using
-
+          
       #
-      # Install build essentials
+      # Install additional dependencies, stolen from:
+      # https://github.com/mapeditor/tiled/blob/master/.github/workflows/packages.yml
       #
-      - name: Install build essentials
+      - name: Install dependencies
         run: |
-          sudo apt-get update
-          sudo apt-get install -y build-essential
-
+             sudo apt-get update
+             sudo apt-get install libgl1-mesa-dev libxkbcommon-x11-0 libxcb-icccm4 libxcb-image0 libxcb-keysyms1 libxcb-render-util0 libxcb-xinerama0 libzstd-dev
+        
       #
-      # Configure and build using CMake
+      # Compile the application
       #
-      - name: Configure and build
+      - name: Compile
         run: |
-          mkdir buildlinux
-          cd buildlinux
-          cmake -G "Ninja" -DCMAKE_PREFIX_PATH=$QTDIR/lib/cmake/Qt6 -DQt6_DIR=$QTDIR/lib/cmake/Qt6 ..
-          cmake --build .
-
+             cmake -B build -DCMAKE_BUILD_TYPE=Release
+             cmake --build build -- -j8
+             
       #
-      # Upload artifacts (adjust as per your project's needs)
+      # Create the AppImage
       #
-      - name: Upload artifacts
+      - name: Create AppImage
+        run: | 
+             mkdir -p appdir/usr/bin
+             cp build/${{env.EXECUTABLE}} appdir/usr/bin/
+             wget -c -nv "https://github.com/probonopd/linuxdeployqt/releases/download/continuous/linuxdeployqt-continuous-x86_64.AppImage" -O linuxdeployqt
+             chmod a+x linuxdeployqt
+             ./linuxdeployqt appdir/usr/bin/${{env.EXECUTABLE}} -appimage -bundle-non-qt-libs
+     
+      #
+      # Rename AppImage to match "%AppName%-%Version%-Linux.AppImage" format
+      #
+      - name: Rename AppImage
+        run: mv *.AppImage ${{env.EXECUTABLE}}-${{env.VERSION}}-Linux.AppImage
+        
+      #
+      # Upload AppImage to build artifacts
+      #
+      - name: Upload AppImage
         uses: actions/upload-artifact@v2
         with:
-          name: ${EXECUTABLE}-${VERSION}-Linux
-          path: build/${EXECUTABLE}
-
+          name: ${{env.EXECUTABLE}}-${{env.VERSION}}-Linux.AppImage
+          path: ${{env.EXECUTABLE}}-${{env.VERSION}}-Linux.AppImage
+             
   #
   # macOS build
   #
@@ -92,48 +103,40 @@ jobs:
       #
       - name: Install Qt
         uses: jurplel/install-qt-action@v2
-
+      
       #
-      # Install CMake
+      # Compile application
       #
-      - name: Install CMake
+      - name: Compile
         run: |
-          brew install cmake
-
+             cmake -B build -DCMAKE_BUILD_TYPE=Release
+             cmake --build build -- -j8
+             
       #
-      # Configure and build using CMake (using Makefiles)
-      #
-      - name: Configure and build
-        run: |
-          mkdir build
-          cd build
-          cmake -DCMAKE_BUILD_TYPE=Release ..
-          make -j$(sysctl -n hw.logicalcpu)
-
-      #
-      # Deploy application (adjust as per your deployment steps)
+      # Deploy application
       #
       - name: Deploy app
         run: |
-          macdeployqt ${EXECUTABLE}.app -qmldir="${QML_DIR_NIX}"
-          mv ${EXECUTABLE}.app ${APPLICATION}.app
-
+             /usr/local/opt/qt/bin/macdeployqt build/${{env.EXECUTABLE}}.app
+             mv build/${{env.EXECUTABLE}}.app "${{env.APPLICATION}}.app"  
+      
       #
-      # Create ZIP file for distribution
+      # ZIP application "%AppName%-%Version%-macOS.zip"
+      # We use ditto instead of zip to use the same commands as Finder
       #
       - name: Create ZIP file
         run: |
-          ditto -c -k --sequesterRsrc --keepParent ${APPLICATION}.app ${EXECUTABLE}-${VERSION}-macOS.zip
-
+             ditto -c -k --sequesterRsrc --keepParent "${{env.APPLICATION}}.app" ${{env.EXECUTABLE}}-${{env.VERSION}}-macOS.zip
+     
       #
       # Upload ZIP to build artifacts
       #
       - name: Upload ZIP
         uses: actions/upload-artifact@v2
         with:
-          name: ${EXECUTABLE}-${VERSION}-macOS.zip
-          path: ${EXECUTABLE}-${VERSION}-macOS.zip
-
+          name: ${{env.EXECUTABLE}}-${{env.VERSION}}-macOS.zip
+          path: ${{env.EXECUTABLE}}-${{env.VERSION}}-macOS.zip
+          
   #
   # Windows build
   #
@@ -147,46 +150,66 @@ jobs:
         uses: actions/checkout@v2
         with:
           submodules: recursive
-
+      
       #
-      # Install Chocolatey
+      # Configure MSVC
       #
-      - name: Install Chocolatey
-        run: |
-          Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))
-
-      #
-      # Install cmake and ninja using Chocolatey
-      #
-      - name: Install cmake and ninja
-        run: |
-          choco install -y cmake ninja
+      - name: Configure MSVC
+        uses: ilammy/msvc-dev-cmd@v1
+        with:
+          arch: x64
+          spectre: true
 
       #
       # Install Qt
       #
       - name: Install Qt
         uses: jurplel/install-qt-action@v2
-
+          
       #
-      # Configure and build using CMake (using Ninja)
-      #
-      - name: Configure and build
+      # Install NSIS
+      #  
+      - name: Install NSIS
         run: |
-          mkdir buildwindows
-          cd buildwindows
-          cmake -G "Ninja" -DCMAKE_BUILD_TYPE=Release ..
-          ninja
-
+             Invoke-Expression (New-Object System.Net.WebClient).DownloadString('https://get.scoop.sh')
+             scoop bucket add extras
+             scoop install nsis
+ 
       #
-      # Package application (if necessary for your project)
+      # Compile application
       #
-
+      - name: Compile
+        run: |
+             cmake -B build -G "NMake Makefiles" -DCMAKE_BUILD_TYPE=Release
+             cmake --build build -- -j8
+             
       #
-      # Upload artifacts (adjust as per your project's needs)
+      # Copy Qt DLLs, compiler runtime & application icon
+      #       
+      - name: Deploy
+        run: |
+             mkdir bin
+             move build\${{env.EXECUTABLE}}.exe bin
+             windeployqt bin\${{env.EXECUTABLE}}.exe --compiler-runtime
+             mkdir "${{env.APPLICATION}}"
+             move bin "${{env.APPLICATION}}"
+             xcopy deploy\windows\resources\icon.ico "${{env.APPLICATION}}"
+      
       #
-      - name: Upload artifacts
+      # Create NSIS installer
+      #
+      - name: Make NSIS installer
+        run: |
+             move "${{env.APPLICATION}}" deploy\windows\nsis\
+             cd deploy\windows\nsis
+             makensis /X"SetCompressor /FINAL lzma" setup.nsi
+             ren *.exe ${{env.EXECUTABLE}}-${{env.VERSION}}-Windows.exe
+             
+      #
+      # Upload installer to build artifacts
+      #
+      - name: Upload NSIS installer
         uses: actions/upload-artifact@v2
         with:
-          name: ${EXECUTABLE}-${VERSION}-Windows
-          path: build/${EXECUTABLE}.exe
+          name: ${{env.EXECUTABLE}}-${{env.VERSION}}-Windows.exe
+          path: deploy/windows/nsis/${{env.EXECUTABLE}}-${{env.VERSION}}-Windows.exe
