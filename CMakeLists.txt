@@ -47,7 +47,6 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         src/ui/replay_screen/mainwindow.ui
         src/ui/replay_screen/replayscreen.h src/ui/replay_screen/replayscreen.cpp
         src/ui/replay_screen/CellButtonR.cpp src/ui/replay_screen/CellButtonR.h
-        images/logo.jpg
     )
 # Define target properties for Android with Qt 6 as:
 #    set_property(TARGET Advanced-Tic-Tac-Toe APPEND PROPERTY QT_ANDROID_PACKAGE_SOURCE_DIR

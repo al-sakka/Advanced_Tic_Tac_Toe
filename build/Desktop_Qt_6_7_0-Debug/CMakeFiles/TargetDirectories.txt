@@ -1,0 +1,9 @@
+/home/sakka/QtProjects/Git_Hub/Advanced_Tic_Tac_Toe/build/Desktop_Qt_6_7_0-Debug/CMakeFiles/Advanced-Tic-Tac-Toe.dir
+/home/sakka/QtProjects/Git_Hub/Advanced_Tic_Tac_Toe/build/Desktop_Qt_6_7_0-Debug/CMakeFiles/edit_cache.dir
+/home/sakka/QtProjects/Git_Hub/Advanced_Tic_Tac_Toe/build/Desktop_Qt_6_7_0-Debug/CMakeFiles/rebuild_cache.dir
+/home/sakka/QtProjects/Git_Hub/Advanced_Tic_Tac_Toe/build/Desktop_Qt_6_7_0-Debug/CMakeFiles/list_install_components.dir
+/home/sakka/QtProjects/Git_Hub/Advanced_Tic_Tac_Toe/build/Desktop_Qt_6_7_0-Debug/CMakeFiles/install.dir
+/home/sakka/QtProjects/Git_Hub/Advanced_Tic_Tac_Toe/build/Desktop_Qt_6_7_0-Debug/CMakeFiles/install/local.dir
+/home/sakka/QtProjects/Git_Hub/Advanced_Tic_Tac_Toe/build/Desktop_Qt_6_7_0-Debug/CMakeFiles/install/strip.dir
+/home/sakka/QtProjects/Git_Hub/Advanced_Tic_Tac_Toe/build/Desktop_Qt_6_7_0-Debug/CMakeFiles/Advanced-Tic-Tac-Toe_autogen_timestamp_deps.dir
+/home/sakka/QtProjects/Git_Hub/Advanced_Tic_Tac_Toe/build/Desktop_Qt_6_7_0-Debug/CMakeFiles/Advanced-Tic-Tac-Toe_autogen.dir

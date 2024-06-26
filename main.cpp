@@ -6,13 +6,12 @@ int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
 
+    // launch Main Screen
+    // MainScreen M;
+    // M.show();
+
+    // launch Registeration screen
     SignScreen w;
-
-    //ReplayScreen R;
-
-    // R.show();
-
-    // launch the registeration screen
     w.show();
 
     return a.exec();
