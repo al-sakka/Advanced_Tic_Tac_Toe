@@ -66,10 +66,11 @@ int Database::signup(QString username,QString password)
     connOpen();
     // return codes: 1-inserted succesfully , 0-Error ,2-Username is already registered
     QByteArray hashedPassword = QCryptographicHash::hash(password.toUtf8(), QCryptographicHash::Sha256).toHex();
+    QString pp = QString(hashedPassword);
     QSqlQuery query;
     query.prepare("INSERT INTO PLAYERDATA (USERNAME , PASSWORD) VALUES (?,?)");
     query.addBindValue(username);
-    query.addBindValue(hashedPassword);
+    query.addBindValue(pp);
     if (!query.exec()){
         QSqlError last_error = query.lastError();
         if(last_error.nativeErrorCode() == "2067"){
@@ -91,11 +92,14 @@ int Database::signup(QString username,QString password)
 int Database::login(QString username, QString password)
 {
     QByteArray hashedPassword = QCryptographicHash::hash(password.toUtf8(), QCryptographicHash::Sha256).toHex();
+    QString pp = QString(hashedPassword);
     connOpen();
     QSqlQuery query;
-    query.prepare("INSERT INTO PLAYERDATA (USERNAME, PASSWORD) VALUES (?, ?)");
+    query.prepare("SELECT username, password FROM PLAYERDATA Where username = ? AND password = ?");
     query.addBindValue(username);
-    query.addBindValue(hashedPassword); // Store the hashed password
+    query.addBindValue(pp); // Store the hashed password
+    QSqlError last_error = query.lastError();
+    qDebug() << last_error;
     if (query.exec()){
         int count = 0;
         while(query.next()){

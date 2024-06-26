@@ -174,6 +174,8 @@ void GameScreen::handleResetButtonClicked()
     }
     currentPlayer = Player::X; // Reset the current player to Player::X
     gameEnded = false; // Reset gameEnded to false
+    this->movesHistory.clear();
+    //db.addGameHistory(this->username, mode, this->movesHistory, this->state);
     enableGameButtons(); // Enable game buttons
 }
 
