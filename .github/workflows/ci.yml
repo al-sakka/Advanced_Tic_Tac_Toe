@@ -33,6 +33,7 @@ jobs:
           install-deps: 'true'
           set-env: 'true'
           cache: 'true'
+          setup-python: 'false'
       
       - name: Configure CMake
         run: |
