@@ -4,9 +4,7 @@
 
 name: Build
 on:
-  push:               # Run on push to any branch
-    branches:
-      - main        # Change this to your main branch name if different
+  push:               # Run on push
   pull_request:       # Run on pull-request
 
 #--------------------------------------------------------------------------------
@@ -15,9 +13,8 @@ on:
 
 env:
   VERSION: "1.0.0"
-  EXECUTABLE: "QtApp"  # Change this to your executable name
-  APPLICATION: "Qt App"  # Change this to your application name
-  CMAKE_PROJECT: "CMakeLists.txt"
+  EXECUTABLE: "XO"
+  APPLICATION: "XO "
 
 #--------------------------------------------------------------------------------
 # Workflow jobs (GNU/Linux, macOS & Windows)
@@ -25,7 +22,7 @@ env:
 
 jobs:
   #
-  # GNU/Linux build (we run on Ubuntu 20.04)
+  # GNU/Linux build (we run on Ubuntu 16.04 to generate AppImage)
   #
   build-linux:
     runs-on: ubuntu-20.04
@@ -42,101 +39,88 @@ jobs:
       # Install Qt
       #
       - name: Install Qt
-        uses: jurplel/install-qt-action@v2
-
+        uses: jurplel/install-qt-action@v4
+        with:
+          version: '6.7.0'
+          
       #
-      # Install CMake and other dependencies
+      # Install additional dependencies, stolen from:
+      # https://github.com/mapeditor/tiled/blob/master/.github/workflows/packages.yml
       #
-      - name: Install CMake and other dependencies
+      - name: Install dependencies
         run: |
-          sudo apt-get update
-          sudo apt-get install -y cmake ninja-build libgl1-mesa-dev libxkbcommon-x11-0 libxcb-icccm4 libxcb-image0 libxcb-keysyms1 libxcb-render-util0 libxcb-xinerama0 libzstd-dev
-
+             sudo apt-get update
+             sudo apt-get install libgl1-mesa-dev libxkbcommon-x11-0 libxcb-icccm4 libxcb-image0 libxcb-keysyms1 libxcb-render-util0 libxcb-xinerama0 libzstd-dev
+        
       #
-      # Configure and build using CMake (using a different build directory)
+      # Compile the application
       #
-      - name: Configure and build
+      - name: Configure with CMake
         run: |
-          mkdir build_github_actions
-          cd build_github_actions
-          cmake -G "Ninja" ..
-          cmake --build .
+             cmake -B build -DCMAKE_BUILD_TYPE=Release
 
       #
-      # Package the application (AppImage)
+      # Debugging: List contents of the build directory after CMake configuration
       #
-      - name: Package AppImage
+      - name: List build directory after CMake configuration
+        run: ls -la build/CMakeFiles
+
+      #
+      # Debugging: Check for CMake logs
+      #
+      - name: Check for CMake logs
         run: |
-          mkdir appdir
-          make install DESTDIR=appdir
-          wget -c -nv "https://github.com/probonopd/linuxdeployqt/releases/download/continuous/linuxdeployqt-continuous-x86_64.AppImage" -O linuxdeployqt
-          chmod a+x linuxdeployqt
-          ./linuxdeployqt appdir/usr/share/applications/*.desktop -appimage -bundle-non-qt-libs
+             if [ -f build/CMakeFiles/CMakeError.log ]; then
+               cat build/CMakeFiles/CMakeError.log
+             fi
 
       #
-      # Rename and upload the AppImage artifact
+      # Continue the build process
+      #
+      - name: Continue Build
+        run: |
+             cmake --build build -- -j8
+
+      #
+      # Debugging: List contents of the build directory after build
+      #
+      - name: List build directory after build
+        run: ls -la build
+
+      #
+      # Debugging: Find the executable
+      #
+      - name: Find the executable
+        run: find build -name ${EXECUTABLE}
+
+      #
+      # Create the AppImage
+      #
+      - name: Create AppImage
+        run: | 
+             mkdir -p appdir/usr/bin
+             cp build/${{env.EXECUTABLE}} appdir/usr/bin/  # Adjust this line if the executable name or location is different
+             wget -c -nv "https://github.com/probonopd/linuxdeployqt/releases/download/continuous/linuxdeployqt-continuous-x86_64.AppImage" -O linuxdeployqt
+             chmod a+x linuxdeployqt
+             ./linuxdeployqt appdir/usr/bin/${{env.EXECUTABLE}} -appimage -bundle-non-qt-libs
+     
+      #
+      # Rename AppImage to match "%AppName%-%Version%-Linux.AppImage" format
+      #
+      - name: Rename AppImage
+        run: mv *.AppImage ${{env.EXECUTABLE}}-${{env.VERSION}}-Linux.AppImage
+        
+      #
+      # Upload AppImage to build artifacts
       #
       - name: Upload AppImage
         uses: actions/upload-artifact@v2
         with:
           name: ${{env.EXECUTABLE}}-${{env.VERSION}}-Linux.AppImage
           path: ${{env.EXECUTABLE}}-${{env.VERSION}}-Linux.AppImage
-
-  #
-  # macOS build
-  #
-  build-mac:
-    runs-on: macos-latest
-    steps:
-      #
-      # Checkout the repository
-      #
-      - name: Checkout repository and submodules
-        uses: actions/checkout@v2
-        with:
-          submodules: recursive
-
-      #
-      # Install Qt
-      #
-      - name: Install Qt
-        uses: jurplel/install-qt-action@v2
-
-      #
-      # Install CMake
-      #
-      - name: Install CMake
-        run: brew install cmake
-
-      #
-      # Configure and build using CMake (using a different build directory)
-      #
-      - name: Configure and build
-        run: |
-          mkdir build_github_actions
-          cd build_github_actions
-          cmake -G "Ninja" ..
-          cmake --build .
-
-      #
-      # Package and zip the macOS application
-      #
-      - name: Package macOS app
-        run: |
-          macdeployqt ${EXECUTABLE}.app -always-overwrite
-          mv ${EXECUTABLE}.app ${APPLICATION}.app
-          ditto -c -k --sequesterRsrc --keepParent ${APPLICATION}.app ${EXECUTABLE}-${VERSION}-macOS.zip
-          rm -rf ${APPLICATION}.app  # Clean up macOS application directory
-
-      #
-      # Upload the macOS ZIP artifact
-      #
-      - name: Upload ZIP
-        uses: actions/upload-artifact@v2
-        with:
-          name: ${{env.EXECUTABLE}}-${{env.VERSION}}-macOS.zip
-          path: ${{env.EXECUTABLE}}-${{env.VERSION}}-macOS.zip
-
+             
+  
+          
   #
   # Windows build
   #
@@ -150,7 +134,7 @@ jobs:
         uses: actions/checkout@v2
         with:
           submodules: recursive
-
+      
       #
       # Configure MSVC
       #
@@ -164,44 +148,51 @@ jobs:
       # Install Qt
       #
       - name: Install Qt
-        uses: jurplel/install-qt-action@v2
-
+        uses: jurplel/install-qt-action@v4
+        with:
+          version: '6.7.0'
+          
       #
-      # Install CMake and other dependencies using Scoop
-      #
-      - name: Install CMake and dependencies
+      # Install NSIS
+      #  
+      - name: Install NSIS
         run: |
-          scoop install cmake ninja
-
+             Invoke-Expression (New-Object System.Net.WebClient).DownloadString('https://get.scoop.sh')
+             scoop bucket add extras
+             scoop install nsis
+ 
       #
-      # Configure and build using CMake (using a different build directory)
+      # Compile application
       #
-      - name: Configure and build
+      - name: Compile
         run: |
-          mkdir build_github_actions
-          cd build_github_actions
-          cmake -G "Ninja" ..
-          cmake --build .
-
+             cmake -B build -G "NMake Makefiles" -DCMAKE_BUILD_TYPE=Release
+             cmake --build build
+             
       #
-      # Deploy and package the Windows application using NSIS
-      #
-      - name: Deploy and package Windows app
+      # Copy Qt DLLs, compiler runtime & application icon
+      #       
+      - name: Deploy
         run: |
-          mkdir bin
-          move build\\${EXECUTABLE}.exe bin
-          windeployqt bin\\${EXECUTABLE}.exe --compiler-runtime
-          mkdir "${APPLICATION}"
-          move bin "${APPLICATION}"
-          xcopy deploy\\windows\\resources\\icon.ico "${APPLICATION}"
-
-          move "${APPLICATION}" deploy\\windows\\nsis\\
-          cd deploy\\windows\\nsis
-          makensis /X"SetCompressor /FINAL lzma" setup.nsi
-          ren *.exe ${EXECUTABLE}-${VERSION}-Windows.exe
-
+             mkdir bin
+             move build\${{env.EXECUTABLE}}.exe bin
+             windeployqt bin\${{env.EXECUTABLE}}.exe --compiler-runtime
+             mkdir "${{env.APPLICATION}}"
+             move bin "${{env.APPLICATION}}"
+             xcopy deploy\windows\resources\icon.ico "${{env.APPLICATION}}"
+      
       #
-      # Upload the Windows installer artifact
+      # Create NSIS installer
+      #
+      - name: Make NSIS installer
+        run: |
+             move "${{env.APPLICATION}}" deploy\windows\nsis\
+             cd deploy\windows\nsis
+             makensis /X"SetCompressor /FINAL lzma" setup.nsi
+             ren *.exe ${{env.EXECUTABLE}}-${{env.VERSION}}-Windows.exe
+             
+      #
+      # Upload installer to build artifacts
       #
       - name: Upload NSIS installer
         uses: actions/upload-artifact@v2
