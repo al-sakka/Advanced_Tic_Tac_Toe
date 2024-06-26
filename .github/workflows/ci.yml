@@ -15,13 +15,13 @@ jobs:
       uses: actions/checkout@v2
 
     - name: Set up Qt
-      uses: jurplel/install-qt-action@v2
+      uses: jurplel/install-qt-action@v4
       with:
         version: '6.7.0' # Adjust this to the version of Qt you're using
         host: 'windows'
         target: 'desktop'
+        arch: 'win64_msvc2019_64' # Specify the architecture
         dir: 'C:/Qt'
-        tools: 'tools_qtcreator, tools_cmake, tools_ninja'
 
     - name: Set up CMake
       uses: jwlawson/actions-setup-cmake@v1
