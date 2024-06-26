@@ -305,6 +305,7 @@ void GameScreen::handleButtonClick(int row, int col, QPushButton *button)
             {
                 gameEnded = true; // Set gameEnded to true
                 QString winnerText = (currentPlayer == Player::X) ? "Player X Won!" : "Player O Won!";
+                state = (currentPlayer == Player::X) ? 0:2;
                 QMessageBox::information(this, "Game Over", winnerText);
                 disableGameButtons(); // Disable game buttons
 
@@ -318,6 +319,7 @@ void GameScreen::handleButtonClick(int row, int col, QPushButton *button)
             {
                 gameEnded = true; // Set gameEnded to true
                 QString winnerText = "Draw!";
+                state = 1;
                 QMessageBox::information(this, "Game Over", winnerText);
                 disableGameButtons(); // Disable game buttons
 
@@ -348,8 +350,7 @@ void GameScreen::handleButtonClick(int row, int col, QPushButton *button)
                 gameEnded = true; // Set gameEnded to true
                 QString winnerText = (currentPlayer == Player::X) ? "You Won!" : "AI Won!";
                 QMessageBox::information(this, "Game Over", winnerText);
-                //btnsToArray();
-
+                state = (currentPlayer == Player::X) ? 0:2;
                 disableGameButtons(); // Disable game buttons
 
                 ////////////////////////////////////////
@@ -363,6 +364,7 @@ void GameScreen::handleButtonClick(int row, int col, QPushButton *button)
                 gameEnded = true; // Set gameEnded to true
                 QString winnerText = "Draw!";
                 QMessageBox::information(this, "Game Over", winnerText);
+                state = 1;
                 disableGameButtons(); // Disable game buttons
 
                 ////////////////////////////////////////
@@ -406,6 +408,7 @@ void GameScreen::handleButtonClick(int row, int col, QPushButton *button)
                 {
                     gameEnded = true; // Set gameEnded to true
                     QString winnerText = (currentPlayer == Player::X) ? "You Won!" : "AI Won!";
+                    state = (currentPlayer == Player::X) ? 0:2;
                     QMessageBox::information(this, "Game Over", winnerText);
                     disableGameButtons(); // Disable game buttons
 
@@ -418,6 +421,7 @@ void GameScreen::handleButtonClick(int row, int col, QPushButton *button)
                 {
                     gameEnded = true; // Set gameEnded to true
                     QString winnerText = "Draw!";
+                    state = 1;
                     QMessageBox::information(this, "Game Over", winnerText);
                     disableGameButtons(); // Disable game buttons
 
@@ -438,7 +442,7 @@ void GameScreen::handleButtonClick(int row, int col, QPushButton *button)
     //qDebug() << "Grid saved \n";
     if (gameEnded){
         qDebug() << mode << '\n';
-        db.addGameHistory(this->username, mode, this->movesHistory);
+        db.addGameHistory(this->username, mode, this->movesHistory, this->state);
     }
 }
 

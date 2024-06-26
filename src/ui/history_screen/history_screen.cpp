@@ -69,12 +69,41 @@ HistoryScreen::HistoryScreen(QWidget *parent) :
                 MD = "Hard Mode";
                 break;
         }
+        QString ResultText;
+        if (entry.mode == 0){
+            switch(entry.state){
+            case 0:
+                ResultText = "Player 1 Won";
+                break;
+            case 1:
+                ResultText = "Draw";
+                break;
+            case 2:
+                ResultText = "Player 2 Won";
+                break;
+            }
 
+        }
+        else{
+            switch(entry.state){
+            case 0:
+                ResultText = "Player Won";
+                break;
+            case 1:
+                ResultText = "Draw";
+                break;
+            case 2:
+                ResultText = "AI Won";
+                break;
+            }
+        }
         QLabel *modelLabel = new QLabel("Mode: " + MD);
+        QLabel *stateLabel = new QLabel("State: " + ResultText);
 
         groupBoxLayout->addWidget(usernameLabel);
         groupBoxLayout->addWidget(timestampLabel);
         groupBoxLayout->addWidget(modelLabel);
+        groupBoxLayout->addWidget(stateLabel);
 
 
         // Create and add the "Show Game" button

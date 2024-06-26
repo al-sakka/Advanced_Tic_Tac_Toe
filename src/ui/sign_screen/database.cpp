@@ -31,6 +31,7 @@ void Database::createGameTable()
                "moves_history TEXT, "
                "timestamp DATETIME DEFAULT CURRENT_TIMESTAMP, "
                "MODE INTEGER, "
+               "STATE INTEGER, "
                "FOREIGN KEY(username) REFERENCES PlayerData(username))"
                );
     QSqlError last_error = query.lastError();
@@ -152,13 +153,14 @@ QList<Database::currentMove> Database::deserializeMovesHistory(const QString &js
 
 
 
-bool Database::addGameHistory(const QString &username, int mode, QList<currentMove> movesHistory) {
+bool Database::addGameHistory(const QString &username, int mode, QList<currentMove> movesHistory, int state) {
     connOpen();
     QSqlQuery query;
-    query.prepare("INSERT INTO GAMEHISTORY (username, mode, moves_history) VALUES (:username, :mode, :moves_history)");
-    query.bindValue(":username", username);
-    query.bindValue(":mode", mode);
-    query.bindValue(":moves_history", serializeMovesHistory(movesHistory));
+    query.prepare("INSERT INTO GAMEHISTORY (username, mode, moves_history, state) VALUES (?, ?, ?, ?)");
+    query.addBindValue(username);
+    query.addBindValue(mode);
+    query.addBindValue(serializeMovesHistory(movesHistory));
+    query.addBindValue(state);
     if (!query.exec()) {
         qDebug() << "Failed to add game history:" << query.lastError();
         query.clear();
@@ -194,7 +196,7 @@ QList<Database::currentMove> Database::getGameHistory(int gameId) {
 QList<Database::GameHistoryEntry> Database::getAllGameHistory() {
     connOpen();
     QList<GameHistoryEntry> allGamesHistory;
-    QSqlQuery query("SELECT GameID, username, timestamp, mode, moves_history FROM GAMEHISTORY");
+    QSqlQuery query("SELECT GameID, username, timestamp, mode, moves_history, state FROM GAMEHISTORY");
 
     if (!query.exec()) {
         qDebug() << "Failed to retrieve all game histories:" << query.lastError();
@@ -207,19 +209,14 @@ QList<Database::GameHistoryEntry> Database::getAllGameHistory() {
         QString timestamp = query.value(2).toString();
         int mode = query.value(3).toInt();
         QString jsonString = query.value(4).toString();
+        int state = query.value(5).toInt();
         QList<currentMove> movesHistory = deserializeMovesHistory(jsonString);
-        allGamesHistory.append ({gameId, username, timestamp, mode, movesHistory});
+        allGamesHistory.append ({gameId, username, timestamp, mode, movesHistory, state});
     }
     query.clear();
     connClose();
     return allGamesHistory;
 }
-
-
-
-
-
-
 
 
 
@@ -248,39 +245,6 @@ void Database::addGameHistory0(const QString &username, const char matrix[3][3],
     query.clear();
     connClose();
 }
-
-// QList<Database::GameHistoryEntry> Database::getAllGameHistory0(){
-//     connOpen();
-//     QList<GameHistoryEntry> history;
-//     QSqlQuery query("SELECT username, matrix_column, timestamp FROM GameHistory");
-
-//     if (!query.exec()) {
-//         qDebug() << "Failed to retrieve game history:" << query.lastError();
-//         return history;
-//     }
-
-//     while (query.next()) {
-//         GameHistoryEntry entry;
-//         entry.username = query.value(0).toString();
-//         QString jsonString = query.value(1).toString();
-//         QJsonDocument jsonDoc = QJsonDocument::fromJson(jsonString.toUtf8());
-//         QJsonArray jsonArray = jsonDoc.array();
-
-//         for (int i = 0; i < 3; ++i) {
-//             QJsonArray rowArray = jsonArray[i].toArray();
-//             for (int j = 0; j < 3; ++j) {
-//                 entry.matrix[i][j] = rowArray[j].toString().at(0).toLatin1();
-//             }
-//         }
-
-//         entry.timestamp = query.value(2).toString();
-//         history.append(entry);
-//     }
-//     connClose();
-//     //query.clear();
-//     return history;
-
-// }
 
 
 

@@ -45,6 +45,7 @@ private:
     QLabel *modeLabel;
     Database db;
     QList<Database::currentMove> movesHistory;
+    int state;
     void handleResetButtonClicked();
     void handleReturnClicked();
     void handleButtonClick(int row, int col, QPushButton *button);

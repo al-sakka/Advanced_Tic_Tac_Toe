@@ -44,28 +44,13 @@
 
     mainLayout->addWidget(centralWidget);
     movIndex = 0;
-    //gameData = entry.movesHistory.at(movIndex).cMove;
+
     ////////////////////////// The GRID ///////////////////////////////////
     gridLayout = new QGridLayout;
     gridLayout->setSpacing(10); // V/H grid spacing
     gridLayout->setContentsMargins(30, 10, 30, 10);
 
-    // for (int row = 0; row < 3; ++row)
-    // {
-    //     for (int col = 0; col < 3; ++col)
-    //     {
-    //         CellButtonR *button = new CellButtonR(this);
-    //         // Set cell style
-    //         button->setStyleSheet("background-color: #333333; border: 2px solid white; border-radius: 20px; color: white; font-size: 80px");
-    //         button->setFont(QFont("Arial", 24)); // Set font size
-    //         button->setMinimumSize(105, 105); // Set minimum size for each cell button
-    //         gridLayout->addWidget(button, row, col);
-    //         // connect(button, &QPushButton::clicked, this, [=](){ handleButtonClick(row, col, button); });
-    //         char c = entry.movesHistory.at(movIndex).cMove[row][col];
-    //         button->setText(QString(QChar::fromLatin1(c)));
-    //         cellButtons[row][col] = button; // Store the button in your array for later use
-    //     }
-    // }
+
     connect(this,&ReplayScreen::ReveivedEntry,this,&ReplayScreen::ShowButtons);
     centralLayout->addLayout(gridLayout);
     //////////////////////////////////////////////////////////////////////////////////
@@ -96,12 +81,8 @@
     // Add the button layout to the central layout
     centralLayout->addLayout(buttonLayout);
 
-    // connect(resetButton, &QPushButton::clicked, this, &ReplayScreen::handleResetButtonClicked);
 
-    // // Initialize the game state to player X
-    // currentPlayer = Player::X;
 
-    // Initialize gameEnded to false
     gameEnded = false;
 
 }
@@ -157,6 +138,50 @@ void ReplayScreen::ShowButtons()
             cellButtons[row][col] = button; // Store the button in your array for later use
         }
     }
+    QString MD;
+    switch(entry.mode){
+    case 0:
+        MD = "Multiplayer";
+        break;
+    case 1:
+        MD = "Easy Mode";
+        break;
+    case 2:
+        MD = "Normal Mode";
+        break;
+    case 3:
+        MD = "Hard Mode";
+        break;
+    }
+    QString ResultText;
+    if (entry.mode == 0){
+        switch(entry.state){
+        case 0:
+            ResultText = "Player 1 Won";
+            break;
+        case 1:
+            ResultText = "Draw";
+            break;
+        case 2:
+            ResultText = "Player 2 Won";
+            break;
+        }
+
+    }
+    else{
+        switch(entry.state){
+        case 0:
+            ResultText = "Player Won";
+            break;
+        case 1:
+            ResultText = "Draw";
+            break;
+        case 2:
+            ResultText = "AI Won";
+            break;
+        }
+    }
+    modeLabel->setText(ResultText + " on " + MD);
 }
 void ReplayScreen::UpdateButtons()
 {
