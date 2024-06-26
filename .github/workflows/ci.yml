@@ -15,7 +15,7 @@ jobs:
       uses: actions/checkout@v2
 
     - name: Set up Qt
-      uses: jurplel/install-qt-action@v4
+      uses: jurplel/install-qt-action@v2
       with:
         version: '6.7.0'
         host: 'windows'
@@ -37,19 +37,26 @@ jobs:
       working-directory: build
 
     - name: Package the application
-      shell: pwsh
       run: |
         # Find the executable
         $executable = "build/Release/Advanced-Tic-Tac-Toe.exe"
         
+        # Ensure windeployqt is executable
+        $windeployqt = "C:/Qt/6.7.0/msvc2019_64/bin/windeployqt.exe"
+        if (-Not (Test-Path $windeployqt)) {
+          Write-Error "windeployqt.exe not found at $windeployqt"
+          exit 1
+        }
+        
         # Use windeployqt to bundle dependencies
-        & "C:/Qt/6.7.0/msvc2019_64/bin/windeployqt.exe" $executable
+        & $windeployqt $executable
 
         # Create a zip file of the bundled executable
-        Compress-Archive -Path build/Release/* -DestinationPath build/Release/Advanced-Tic-Tac-Toe.zip
+        Compress-Archive -Path "build/Release/*" -DestinationPath "build/Release/Advanced-Tic-Tac-Toe.zip"
+      shell: pwsh
 
     - name: Upload Release Artifact
       uses: actions/upload-artifact@v2
       with:
-        name: Advanced-Tic-Tac-Toe
+        name: Advanced-Tic-Tac-Toe-Installer
         path: build/Release/Advanced-Tic-Tac-Toe.zip
