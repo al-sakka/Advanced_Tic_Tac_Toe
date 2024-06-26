@@ -10,8 +10,7 @@ jobs:
   build-and-package:
     runs-on: windows-latest
 
-    steps:
-      # Checkout the repository and submodules
+          # Checkout the repository and submodules
       - name: Checkout repository and submodules
         uses: actions/checkout@v2
         with:
@@ -42,12 +41,18 @@ jobs:
       - name: Build with CMake
         run: cmake --build build --config Release
 
+      # Download windeployqt
+      - name: Download windeployqt
+        run: |
+          mkdir tools
+          Invoke-WebRequest -Uri https://download.qt.io/official_releases/qt/6.7/6.7.0/bin/windows/x64/windeployqt.exe -OutFile tools/windeployqt.exe
+
       # Deploy Qt dependencies using windeployqt
       - name: Deploy Qt dependencies
         run: |
           mkdir bin
           move build/Release/Advanced-Tic-Tac-Toe.exe bin
-          & "C:/Qt/6.7.0/msvc2019_64/bin/windeployqt.exe" bin/Advanced-Tic-Tac-Toe.exe --compiler-runtime
+          tools/windeployqt.exe bin/Advanced-Tic-Tac-Toe.exe --compiler-runtime
           mkdir "Advanced-Tic-Tac-Toe"
           move bin "Advanced-Tic-Tac-Toe"
 
