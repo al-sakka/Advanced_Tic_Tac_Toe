@@ -49,11 +49,11 @@ HistoryScreen::HistoryScreen(QWidget *parent) :
     std::reverse(history.begin(), history.end());
     // Populate the history layout with game history entries
     for (const auto &entry : history) {
-        QGroupBox *groupBox = new QGroupBox("Game History Entry");
+        QGroupBox *groupBox = new QGroupBox(entry.timestamp);
         QVBoxLayout *groupBoxLayout = new QVBoxLayout;
 
         QLabel *usernameLabel = new QLabel("Username: " + entry.username);
-        QLabel *timestampLabel = new QLabel("Timestamp: " + entry.timestamp);
+        // QLabel *timestampLabel = new QLabel("Date: " + entry.timestamp);
         QString MD;
         switch(entry.mode){
             case 0:
@@ -101,7 +101,7 @@ HistoryScreen::HistoryScreen(QWidget *parent) :
         QLabel *stateLabel = new QLabel("State: " + ResultText);
 
         groupBoxLayout->addWidget(usernameLabel);
-        groupBoxLayout->addWidget(timestampLabel);
+        // groupBoxLayout->addWidget(timestampLabel);
         groupBoxLayout->addWidget(modelLabel);
         groupBoxLayout->addWidget(stateLabel);
 
@@ -154,3 +154,4 @@ void HistoryScreen::handleReplayScreen(Database::GameHistoryEntry entry)
     replayScreen->show();
     this->hide();
 }
+

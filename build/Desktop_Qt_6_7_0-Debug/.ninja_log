@@ -1,0 +1,18 @@
+# ninja log v5
+0	14076	1719443208055826332	Advanced-Tic-Tac-Toe_autogen/timestamp	d1cd714f6c4c8db2
+0	14076	1719443208055826332	Advanced-Tic-Tac-Toe_autogen/mocs_compilation.cpp	d1cd714f6c4c8db2
+0	14076	1719443208055826332	/home/sakka/QtProjects/Git_Hub/Advanced_Tic_Tac_Toe/build/Desktop_Qt_6_7_0-Debug/Advanced-Tic-Tac-Toe_autogen/timestamp	d1cd714f6c4c8db2
+0	14076	1719443208055826332	/home/sakka/QtProjects/Git_Hub/Advanced_Tic_Tac_Toe/build/Desktop_Qt_6_7_0-Debug/Advanced-Tic-Tac-Toe_autogen/mocs_compilation.cpp	d1cd714f6c4c8db2
+14077	34454	1719443228431649480	CMakeFiles/Advanced-Tic-Tac-Toe.dir/main.cpp.o	580e6faeb5061c01
+14079	34496	1719443228491648978	CMakeFiles/Advanced-Tic-Tac-Toe.dir/src/ui/main_screen/main_screen.cpp.o	ac8ef26c9e1b4e64
+14076	35189	1719443229183643201	CMakeFiles/Advanced-Tic-Tac-Toe.dir/Advanced-Tic-Tac-Toe_autogen/mocs_compilation.cpp.o	b6e8de9001b153b9
+35189	43229	1719443237227577143	CMakeFiles/Advanced-Tic-Tac-Toe.dir/utilities/Buttons/Custom_Button.cpp.o	f4d8130fb874d7dd
+34458	51810	1719443245811508826	CMakeFiles/Advanced-Tic-Tac-Toe.dir/src/ui/game_screen/CellButton.cpp.o	d15fe8ff2369b3f7
+43229	51885	1719443245887508230	CMakeFiles/Advanced-Tic-Tac-Toe.dir/utilities/Animation/animation.cpp.o	296fb5ccdaaca63a
+34496	54137	1719443248123490804	CMakeFiles/Advanced-Tic-Tac-Toe.dir/src/ui/game_screen/game_screen.cpp.o	358ce849ab92d139
+51810	69473	1719443263471375185	CMakeFiles/Advanced-Tic-Tac-Toe.dir/src/ui/sign_screen/sign_screen.cpp.o	151eb34e691079d6
+51885	70506	1719443264499367687	CMakeFiles/Advanced-Tic-Tac-Toe.dir/src/ui/sign_screen/database.cpp.o	8a1627db1307c5c3
+54137	72814	1719443266811350934	CMakeFiles/Advanced-Tic-Tac-Toe.dir/src/ui/history_screen/history_screen.cpp.o	12cb2f5d52018c86
+69473	82670	1719443276667281239	CMakeFiles/Advanced-Tic-Tac-Toe.dir/src/ui/replay_screen/replayscreen.cpp.o	f3e51e156af4aeb4
+70506	83103	1719443277103278218	CMakeFiles/Advanced-Tic-Tac-Toe.dir/src/ui/replay_screen/CellButtonR.cpp.o	1faee4199a625236
+83103	84478	1719443278467268808	Advanced-Tic-Tac-Toe	f2b2e6b8bce26fbb

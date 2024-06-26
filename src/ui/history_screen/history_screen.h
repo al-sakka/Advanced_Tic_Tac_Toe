@@ -44,3 +44,4 @@ private:
 };
 
 #endif // HISTORY_SCREEN_H
+
