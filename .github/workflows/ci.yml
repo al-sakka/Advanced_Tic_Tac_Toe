@@ -14,12 +14,12 @@ jobs:
 
     steps:
     - name: Checkout repository
-      uses: actions/checkout@v4
+      uses: actions/checkout@v3
 
     - name: Install dependencies
       run: |
         sudo apt-get update
-        sudo apt-get install -y qt6-base-dev qt6-tools-dev qt6-tools-dev-tools build-essential cmake
+        sudo apt-get install -y qt6-base-dev qt6-tools-dev qt6-tools-dev-tools qt6-opengl-dev libgl1-mesa-dev build-essential cmake
 
     - name: Configure with CMake
       run: cmake -B build -S . -DCMAKE_PREFIX_PATH=/usr/lib/qt6
@@ -28,7 +28,7 @@ jobs:
       run: cmake --build build --config Release
 
     - name: Archive build output
-      uses: actions/upload-artifact@v4
+      uses: actions/upload-artifact@v3
       with:
         name: Build
         path: build/
