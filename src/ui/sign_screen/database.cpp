@@ -49,6 +49,7 @@ void Database::connClose()
 bool Database::connOpen()
 {
     xodb = QSqlDatabase::addDatabase("QSQLITE");
+
     xodb.setDatabaseName("database1.db");
 
     if(!xodb.open()){

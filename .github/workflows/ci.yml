@@ -1,0 +1,45 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    - name: Set up Qt
+      uses: jurplel/install-qt-action@v2
+      with:
+        version: '5.15.2'
+        modules: qtbase, qtdeclarative
+
+    - name: Install dependencies
+      run: sudo apt-get install -y build-essential cmake
+
+    - name: Build project
+      run: |
+        mkdir build
+        cd build
+        cmake ..
+        cmake --build .
+
+    - name: Test project
+      run: |
+        cd build
+        ctest
+
+    - name: Deploy binaries
+      if: success()
+      uses: actions/upload-artifact@v2
+      with:
+        name: binaries
+        path: build

@@ -1,0 +1,36 @@
+# ninja log v5
+9	13522	1719420127546960400	Advanced-Tic-Tac-Toe_autogen/timestamp	be01eb68836bfdc6
+9	13522	1719420127546960400	Advanced-Tic-Tac-Toe_autogen/mocs_compilation.cpp	be01eb68836bfdc6
+9	13522	1719420127546960400	/media/sakka/My World/Programming/my_github/Advanced-Tic-Tac-Toe/Advanced_Tic_Tac_Toe/build/Desktop_Qt_6_7_0-Debug/Advanced-Tic-Tac-Toe_autogen/timestamp	be01eb68836bfdc6
+9	13522	1719420127546960400	/media/sakka/My World/Programming/my_github/Advanced-Tic-Tac-Toe/Advanced_Tic_Tac_Toe/build/Desktop_Qt_6_7_0-Debug/Advanced-Tic-Tac-Toe_autogen/mocs_compilation.cpp	be01eb68836bfdc6
+13526	31643	1719420145691422600	CMakeFiles/Advanced-Tic-Tac-Toe.dir/main.cpp.o	859346301e755fe7
+13528	32156	1719420146206161900	CMakeFiles/Advanced-Tic-Tac-Toe.dir/src/ui/main_screen/main_screen.cpp.o	8b9c7aec9d24c0da
+13523	33038	1719420147086774400	CMakeFiles/Advanced-Tic-Tac-Toe.dir/Advanced-Tic-Tac-Toe_autogen/mocs_compilation.cpp.o	e49083f3ab05f54e
+33040	41214	1719420155266883900	CMakeFiles/Advanced-Tic-Tac-Toe.dir/utilities/Buttons/Custom_Button.cpp.o	a3f52324aec837d9
+31730	49631	1719420163681952500	CMakeFiles/Advanced-Tic-Tac-Toe.dir/src/ui/game_screen/CellButton.cpp.o	7a1d2b17861e26bd
+41215	50345	1719420164397090100	CMakeFiles/Advanced-Tic-Tac-Toe.dir/utilities/Animation/animation.cpp.o	95f6b14b87a225d7
+32157	51979	1719420166026701400	CMakeFiles/Advanced-Tic-Tac-Toe.dir/src/ui/game_screen/game_screen.cpp.o	98d9a26e0e06b27a
+49632	68008	1719420182057231200	CMakeFiles/Advanced-Tic-Tac-Toe.dir/src/ui/sign_screen/sign_screen.cpp.o	8a5808ef5158a1fd
+50345	68552	1719420182600651700	CMakeFiles/Advanced-Tic-Tac-Toe.dir/src/ui/sign_screen/database.cpp.o	9309d05d0f764d59
+51980	72154	1719420186201785700	CMakeFiles/Advanced-Tic-Tac-Toe.dir/src/ui/history_screen/history_screen.cpp.o	5ea48b93350c1393
+68010	82093	1719420196142973500	CMakeFiles/Advanced-Tic-Tac-Toe.dir/src/ui/replay_screen/replayscreen.cpp.o	132be7cd33857f66
+68554	82249	1719420196299699900	CMakeFiles/Advanced-Tic-Tac-Toe.dir/src/ui/replay_screen/CellButtonR.cpp.o	a6b1f107dc379e5c
+82250	83965	1719420198008637300	Advanced-Tic-Tac-Toe	f2b2e6b8bce26fbb
+66	407	1719420437241803400	Advanced-Tic-Tac-Toe_autogen/timestamp	be01eb68836bfdc6
+66	407	1719420437241803400	Advanced-Tic-Tac-Toe_autogen/mocs_compilation.cpp	be01eb68836bfdc6
+66	407	1719420437241803400	/media/sakka/My World/Programming/my_github/Advanced-Tic-Tac-Toe/Advanced_Tic_Tac_Toe/build/Desktop_Qt_6_7_0-Debug/Advanced-Tic-Tac-Toe_autogen/timestamp	be01eb68836bfdc6
+66	407	1719420437241803400	/media/sakka/My World/Programming/my_github/Advanced-Tic-Tac-Toe/Advanced_Tic_Tac_Toe/build/Desktop_Qt_6_7_0-Debug/Advanced-Tic-Tac-Toe_autogen/mocs_compilation.cpp	be01eb68836bfdc6
+422	18304	1719420455132709500	CMakeFiles/Advanced-Tic-Tac-Toe.dir/src/ui/sign_screen/database.cpp.o	9309d05d0f764d59
+18305	20369	1719420457194623800	Advanced-Tic-Tac-Toe	f2b2e6b8bce26fbb
+27	203	1719420575685472100	Advanced-Tic-Tac-Toe_autogen/timestamp	be01eb68836bfdc6
+27	203	1719420575685472100	Advanced-Tic-Tac-Toe_autogen/mocs_compilation.cpp	be01eb68836bfdc6
+27	203	1719420575685472100	/media/sakka/My World/Programming/my_github/Advanced-Tic-Tac-Toe/Advanced_Tic_Tac_Toe/build/Desktop_Qt_6_7_0-Debug/Advanced-Tic-Tac-Toe_autogen/timestamp	be01eb68836bfdc6
+27	203	1719420575685472100	/media/sakka/My World/Programming/my_github/Advanced-Tic-Tac-Toe/Advanced_Tic_Tac_Toe/build/Desktop_Qt_6_7_0-Debug/Advanced-Tic-Tac-Toe_autogen/mocs_compilation.cpp	be01eb68836bfdc6
+227	14925	1719420590399509300	CMakeFiles/Advanced-Tic-Tac-Toe.dir/src/ui/sign_screen/database.cpp.o	9309d05d0f764d59
+14926	16899	1719420592370669200	Advanced-Tic-Tac-Toe	f2b2e6b8bce26fbb
+35	205	1719420732207704500	Advanced-Tic-Tac-Toe_autogen/timestamp	be01eb68836bfdc6
+35	205	1719420732207704500	Advanced-Tic-Tac-Toe_autogen/mocs_compilation.cpp	be01eb68836bfdc6
+35	205	1719420732207704500	/media/sakka/My World/Programming/my_github/Advanced-Tic-Tac-Toe/Advanced_Tic_Tac_Toe/build/Desktop_Qt_6_7_0-Debug/Advanced-Tic-Tac-Toe_autogen/timestamp	be01eb68836bfdc6
+35	205	1719420732207704500	/media/sakka/My World/Programming/my_github/Advanced-Tic-Tac-Toe/Advanced_Tic_Tac_Toe/build/Desktop_Qt_6_7_0-Debug/Advanced-Tic-Tac-Toe_autogen/mocs_compilation.cpp	be01eb68836bfdc6
+240	14846	1719420746841533200	CMakeFiles/Advanced-Tic-Tac-Toe.dir/src/ui/sign_screen/database.cpp.o	9309d05d0f764d59
+14848	16824	1719420748812488000	Advanced-Tic-Tac-Toe	f2b2e6b8bce26fbb
