@@ -17,10 +17,10 @@ jobs:
     - name: Set up Qt
       uses: jurplel/install-qt-action@v4
       with:
-        version: '6.7.0' # Adjust this to the version of Qt you're using
+        version: '6.7.0'
         host: 'windows'
         target: 'desktop'
-        arch: 'win64_msvc2019_64' # Specify the architecture
+        arch: 'win64_msvc2019_64'
         dir: 'C:/Qt'
 
     - name: Set up CMake
@@ -37,15 +37,16 @@ jobs:
       working-directory: build
 
     - name: Package the application
+      shell: pwsh
       run: |
         # Find the executable
-        set executable=build\Release\Advanced-Tic-Tac-Toe.exe
+        $executable = "build/Release/Advanced-Tic-Tac-Toe.exe"
         
         # Use windeployqt to bundle dependencies
-        C:\Qt\6.7.0\msvc2019_64\bin\windeployqt.exe %executable%
+        & "C:/Qt/6.7.0/msvc2019_64/bin/windeployqt.exe" $executable
 
         # Create a zip file of the bundled executable
-        powershell Compress-Archive -Path build\Release\* -DestinationPath build\Release\Advanced-Tic-Tac-Toe.zip
+        Compress-Archive -Path build/Release/* -DestinationPath build/Release/Advanced-Tic-Tac-Toe.zip
 
     - name: Upload Release Artifact
       uses: actions/upload-artifact@v2
