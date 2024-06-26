@@ -1,4 +1,4 @@
-name: Deploy Windows Application
+name: Build and Deploy
 
 on:
   push:
@@ -9,54 +9,40 @@ on:
       - ci/cd
 
 jobs:
-  deploy:
+  build:
     runs-on: windows-latest
-    
+
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v2
-      
-      - name: Set up MSVC environment
-        uses: ilammy/msvc-dev-cmd@v1
-        with:
-          arch: x64
-          spectre: true
-      
-      - name: Install Qt
-        uses: jurplel/install-qt-action@v4
-        with:
-          version: '6.7.0'
-          host: 'windows'
-          target: 'desktop'
-          arch: 'win64_mingw'
-          dir: '${{ github.workspace }}/qt'
-          install-deps: 'true'
-          set-env: 'true'
-          cache: 'true'
-          setup-python: 'false'
-      
-      - name: Configure CMake
-        run: |
-          mkdir build
-          cd build
-          cmake -G "MinGW Makefiles" ..
-      
-      - name: Build project
-        run: |
-          cmake --build build --config Release
-      
-      - name: Deploy with windeployqt
-        run: |
-          mkdir deploy
-          cd deploy
-          ${{ github.workspace }}/qt/6.7.0/mingw_64/bin/windeployqt.exe ../build/Release/Advanced-Tic-Tac-Toe.exe --no-compiler-runtime --no-translations --no-opengl-sw
-      
-      - name: Create ZIP archive
-        run: |
-          Compress-Archive -Path deploy/* -DestinationPath Advanced-Tic-Tac-Toe-Windows.zip
-      
-      - name: Upload artifacts
-        uses: actions/upload-artifact@v2
-        with:
-          name: Advanced-Tic-Tac-Toe-Windows
-          path: Advanced-Tic-Tac-Toe-Windows.zip
+    - name: Checkout repository
+      uses: actions/checkout@v3
+
+    - name: Set up Qt
+      uses: jurplel/install-qt-action@v4
+      with:
+        version: '6.7.0'  # Qt version you are using
+        host: windows
+        target: desktop
+        arch: mingw_64  # MinGW architecture
+        dir: ${{ runner.temp }}/qt
+        setup-python: 'false'
+
+    - name: Set up CMake
+      uses: lukka/get-cmake@v3
+      with:
+        cmake-version: '3.24.2'  # or the version of CMake you are using
+
+    - name: Configure with CMake
+      run: cmake -B build -S . -DCMAKE_PREFIX_PATH=${{ runner.temp }}/qt/6.7.0/mingw_64 -G "MinGW Makefiles"
+
+    - name: Build with CMake
+      run: cmake --build build --config Release
+
+    - name: Deploy with windeployqt
+      run: |
+        ${{ runner.temp }}/qt/6.7.0/mingw_64/bin/windeployqt.exe --dir build/Release --release build/Release/YourExecutable.exe
+
+    - name: Archive build output
+      uses: actions/upload-artifact@v3
+      with:
+        name: Build
+        path: build/Release/
