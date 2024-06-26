@@ -7,7 +7,6 @@ on:
   pull_request:
     branches:
       - ci/cd
-
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -19,7 +18,12 @@ jobs:
     - name: Install dependencies
       run: |
         sudo apt-get update
-        sudo apt-get install -y qt6-base-dev qt6-tools-dev qt6-tools-dev-tools libgl1-mesa-dev libglu1-mesa-dev build-essential cmake
+        sudo apt-get install -y qt6-base-dev qt6-tools-dev build-essential cmake wget
+
+    - name: Download linuxdeployqt
+      run: |
+        wget -O linuxdeployqt "https://github.com/probonopd/linuxdeployqt/releases/download/continuous/linuxdeployqt-continuous-x86_64.AppImage"
+        chmod +x linuxdeployqt
 
     - name: Configure with CMake
       run: cmake -B build -S . -DCMAKE_PREFIX_PATH=/usr/lib/qt6
@@ -27,28 +31,17 @@ jobs:
     - name: Build with CMake
       run: cmake --build build --config Release
 
-    - name: Archive build output
-      uses: montudor/action-zip@v1
-      with:
-        args: -r build.zip build/
+    - name: Create AppImage
+      run: |
+        mkdir -p appdir/usr/bin  # Create directory structure for AppDir
+        cp build/YourApplication appdir/usr/bin/YourApplication  # Copy your application binary
 
-    - name: Create Release
-      id: create_release
-      uses: actions/create-release@v1
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      with:
-        tag_name: v1.0.0  # Replace with your tag version
-        release_name: Release v1.0.0  # Replace with your release name
-        draft: false
-        prerelease: false
+        # Example: Copy any necessary assets or resources to appdir/
 
-    - name: Upload Release Asset
-      uses: actions/upload-release-asset@v1
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        ./linuxdeployqt appdir/usr/bin/YourApplication -bundle-non-qt-libs -appimage
+
+    - name: Upload AppImage Artifact
+      uses: actions/upload-artifact@v2
       with:
-        upload_url: ${{ steps.create_release.outputs.upload_url }}
-        asset_path: build.zip
-        asset_name: build.zip
-        asset_content_type: application/zip
+        name: YourApplication-x86_64.AppImage
+        path: appdir/YourApplication-x86_64.AppImage
