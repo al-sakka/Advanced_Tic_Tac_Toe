@@ -31,11 +31,13 @@ public:
     void backToMenu();
 
     void setUserName(QString username);
+    QVBoxLayout *historyLayout;
     // ~HistoryScreen();
 public slots:
     void handleReplayScreen(Database::GameHistoryEntry entry);
+    void populateHistory();
 signals:
-
+    void makeHistory();
 private:
     // Ui::HistoryScreen *ui;
     QString username;

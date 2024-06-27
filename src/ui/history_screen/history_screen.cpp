@@ -4,6 +4,8 @@ HistoryScreen::HistoryScreen(QWidget *parent) :
     QWidget{parent}
 {
     history = db.getAllGameHistory();
+
+    //qDebug() << this->username;
     setWindowTitle("Matches History");
 
     // Create the main vertical layout
@@ -44,80 +46,11 @@ HistoryScreen::HistoryScreen(QWidget *parent) :
 
     // Create a widget to hold the history layout
     QWidget *historyWidget = new QWidget;
-    QVBoxLayout *historyLayout = new QVBoxLayout(historyWidget);
+    historyLayout = new QVBoxLayout(historyWidget);
     historyLayout->setAlignment(Qt::AlignTop);
     std::reverse(history.begin(), history.end());
     // Populate the history layout with game history entries
-    for (const auto &entry : history) {
-        QGroupBox *groupBox = new QGroupBox(entry.timestamp);
-        QVBoxLayout *groupBoxLayout = new QVBoxLayout;
-
-        QLabel *usernameLabel = new QLabel("Username: " + entry.username);
-        // QLabel *timestampLabel = new QLabel("Date: " + entry.timestamp);
-        QString MD;
-        switch(entry.mode){
-            case 0:
-                MD = "Multiplayer";
-                break;
-            case 1:
-                MD = "Easy Mode";
-                break;
-            case 2:
-                MD = "Normal Mode";
-                break;
-            case 3:
-                MD = "Hard Mode";
-                break;
-        }
-        QString ResultText;
-        if (entry.mode == 0){
-            switch(entry.state){
-            case 0:
-                ResultText = "Player 1 Won";
-                break;
-            case 1:
-                ResultText = "Draw";
-                break;
-            case 2:
-                ResultText = "Player 2 Won";
-                break;
-            }
-
-        }
-        else{
-            switch(entry.state){
-            case 0:
-                ResultText = "Player Won";
-                break;
-            case 1:
-                ResultText = "Draw";
-                break;
-            case 2:
-                ResultText = "AI Won";
-                break;
-            }
-        }
-        QLabel *modelLabel = new QLabel("Mode: " + MD);
-        QLabel *stateLabel = new QLabel("State: " + ResultText);
-
-        groupBoxLayout->addWidget(usernameLabel);
-        // groupBoxLayout->addWidget(timestampLabel);
-        groupBoxLayout->addWidget(modelLabel);
-        groupBoxLayout->addWidget(stateLabel);
-
-
-        // Create and add the "Show Game" button
-        Custom_Button *moreButton = new Custom_Button("Show Game", this);
-
-        // Connect the "Show Game" button to the handleReplayScreen function
-        connect(moreButton, &Custom_Button::clicked, [this, entry]() { handleReplayScreen(entry); });
-
-        groupBoxLayout->addWidget(moreButton);
-
-        groupBox->setLayout(groupBoxLayout);
-        historyLayout->addWidget(groupBox);
-    }
-
+    connect(this,&HistoryScreen::makeHistory,this,&HistoryScreen::populateHistory);
     // Set the history layout as the content of the scroll area
     scrollArea->setWidget(historyWidget);
 
@@ -140,6 +73,9 @@ void HistoryScreen::handleGoBack()
 void HistoryScreen::setUserName(QString username)
 {
     this->username = username;
+    emit makeHistory();
+    //qDebug() << this->username;
+
 }
 
 void HistoryScreen::handleReplayScreen(Database::GameHistoryEntry entry)
@@ -154,4 +90,82 @@ void HistoryScreen::handleReplayScreen(Database::GameHistoryEntry entry)
     replayScreen->show();
     this->hide();
 }
+
+void HistoryScreen::populateHistory()
+{
+    for (const auto &entry : history) {
+        qDebug() << this->username << " " << entry.username << "\n";
+        if (entry.username == this->username){
+
+            QGroupBox *groupBox = new QGroupBox(entry.timestamp);
+            QVBoxLayout *groupBoxLayout = new QVBoxLayout;
+
+            QLabel *usernameLabel = new QLabel("Username: " + entry.username);
+            // QLabel *timestampLabel = new QLabel("Date: " + entry.timestamp);
+            QString MD;
+            switch(entry.mode){
+            case 0:
+                MD = "Multiplayer";
+                break;
+            case 1:
+                MD = "Easy Mode";
+                break;
+            case 2:
+                MD = "Normal Mode";
+                break;
+            case 3:
+                MD = "Hard Mode";
+                break;
+            }
+            QString ResultText;
+            if (entry.mode == 0){
+                switch(entry.state){
+                case 0:
+                    ResultText = "Player 1 Won";
+                    break;
+                case 1:
+                    ResultText = "Draw";
+                    break;
+                case 2:
+                    ResultText = "Player 2 Won";
+                    break;
+                }
+
+            }
+            else{
+                switch(entry.state){
+                case 0:
+                    ResultText = "Player Won";
+                    break;
+                case 1:
+                    ResultText = "Draw";
+                    break;
+                case 2:
+                    ResultText = "AI Won";
+                    break;
+                }
+            }
+            QLabel *modelLabel = new QLabel("Mode: " + MD);
+            QLabel *stateLabel = new QLabel("State: " + ResultText);
+
+            groupBoxLayout->addWidget(usernameLabel);
+            // groupBoxLayout->addWidget(timestampLabel);
+            groupBoxLayout->addWidget(modelLabel);
+            groupBoxLayout->addWidget(stateLabel);
+
+
+            // Create and add the "Show Game" button
+            Custom_Button *moreButton = new Custom_Button("Show Game", this);
+
+            // Connect the "Show Game" button to the handleReplayScreen function
+            connect(moreButton, &Custom_Button::clicked, [this, entry]() { handleReplayScreen(entry); });
+
+            groupBoxLayout->addWidget(moreButton);
+
+            groupBox->setLayout(groupBoxLayout);
+            historyLayout->addWidget(groupBox);
+        }
+    }
+}
+
 
