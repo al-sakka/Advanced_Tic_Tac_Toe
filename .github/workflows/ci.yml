@@ -3,10 +3,11 @@ name: Build and Deploy on Linux
 on:
   push:
     branches:
-      - ci/cd
+      - main
   pull_request:
     branches:
-      - ci/cd
+      - main
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -20,28 +21,14 @@ jobs:
         sudo apt-get update
         sudo apt-get install -y qt6-base-dev qt6-tools-dev qt6-tools-dev-tools libgl1-mesa-dev libglu1-mesa-dev build-essential cmake
 
-    - name: Download linuxdeployqt
-      run: |
-        wget -O linuxdeployqt "https://github.com/probonopd/linuxdeployqt/releases/download/continuous/linuxdeployqt-continuous-x86_64.AppImage"
-        chmod +x linuxdeployqt
-
     - name: Configure with CMake
       run: cmake -B build -S . -DCMAKE_PREFIX_PATH=/usr/lib/qt6
 
     - name: Build with CMake
       run: cmake --build build --config Release
 
-    - name: Create AppImage
-      run: |
-          mkdir -p appdir/usr/bin  # Create directory structure for AppDir
-          cp build/Advanced-Tic-Tac-Toe appdir/usr/bin/Advanced-Tic-Tac-Toe  # Copy your application binary
-
-          # Example: Copy any necessary assets or resources to appdir/
-
-          ./linuxdeployqt appdir/usr/bin/Advanced-Tic-Tac-Toe -bundle-non-qt-libs -appimage
-
-    - name: Upload AppImage Artifact
-      uses: actions/upload-artifact@v2
+    - name: Archive build output
+      uses: actions/upload-artifact@v3
       with:
-          name: Advanced-Tic-Tac-Toe-x86_64.AppImage
-          path: appdir/Advanced-Tic-Tac-Toe-x86_64.AppImage
+        name: Build
+        path: build/
