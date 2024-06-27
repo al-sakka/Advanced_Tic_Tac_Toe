@@ -29,8 +29,6 @@ jobs:
 
     - name: Create Release
       uses: actions/create-release@v1
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Access token with repo:releases permission
       with:
         tag_name: ${{ github.sha }}  # Use commit SHA as tag name (optional)
         release_name: Advanced-Tic-Tac-Toe v${{ github.sha }}  # Release name with commit SHA
