@@ -27,8 +27,17 @@ jobs:
     - name: Build with CMake
       run: cmake --build build --config Release
 
-    - name: Archive build output
+    - name: Create Release
+      uses: actions/create-release@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Access token with repo:releases permission
+      with:
+        tag_name: ${{ github.sha }}  # Use commit SHA as tag name (optional)
+        release_name: Advanced-Tic-Tac-Toe v${{ github.sha }}  # Release name with commit SHA
+          
+
+    - name: Upload Release Asset
       uses: actions/upload-artifact@v3
       with:
-        name: Build
-        path: build/
+        name: advanced-tic-tac-toe
+        path: build/Release/Advanced-Tic-Tac-Toe  # Modify path based on your build output
