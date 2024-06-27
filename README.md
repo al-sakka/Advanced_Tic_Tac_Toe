@@ -28,7 +28,7 @@ This project is a Tic Tac Toe game developed using Qt C++. It features both mult
 
 1. **Clone the Repository**:
    ```sh
-   git clone https://github.com/yourusername/tic-tac-toe-qt.git
+   git clone https://github.com/al-sakka/Advanced_Tic_Tac_Toe
    ```
 
 2. **Open the Project**:
