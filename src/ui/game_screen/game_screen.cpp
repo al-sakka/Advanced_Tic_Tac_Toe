@@ -311,11 +311,6 @@ void GameScreen::handleButtonClick(int row, int col, QPushButton *button)
                 QMessageBox::information(this, "Game Over", winnerText);
                 disableGameButtons(); // Disable game buttons
 
-                ////////////////////////////////////////
-                // Game will be added to history here //
-                //           Multiplayer Mode         //
-                ////////////////////////////////////////
-
             }
             else if(checkDraw())
             {
@@ -324,11 +319,6 @@ void GameScreen::handleButtonClick(int row, int col, QPushButton *button)
                 state = 1;
                 QMessageBox::information(this, "Game Over", winnerText);
                 disableGameButtons(); // Disable game buttons
-
-                ////////////////////////////////////////
-                // Game will be added to history here //
-                //        Multiplayer Mode Draw       //
-                ////////////////////////////////////////
 
             }
             else
@@ -355,11 +345,6 @@ void GameScreen::handleButtonClick(int row, int col, QPushButton *button)
                 state = (currentPlayer == Player::X) ? 0:2;
                 disableGameButtons(); // Disable game buttons
 
-                ////////////////////////////////////////
-                // Game will be added to history here //
-                //         Singleplayer Mode          //
-                ////////////////////////////////////////
-
             }
             else if(checkDraw())
             {
@@ -369,20 +354,13 @@ void GameScreen::handleButtonClick(int row, int col, QPushButton *button)
                 state = 1;
                 disableGameButtons(); // Disable game buttons
 
-                ////////////////////////////////////////
-                // Game will be added to history here //
-                //       Singleplayer Mode Draw       //
-                ////////////////////////////////////////
             }
             else
             {
                 // Switch players
                 currentPlayer = (currentPlayer == Player::X) ? Player::O : Player::X;
 
-                ////////////////////
-                /// \brief makeMoves
                 ///switch between modes
-
                 if(this->mode == 1)
                 {
                     // Easy Mode
@@ -402,8 +380,6 @@ void GameScreen::handleButtonClick(int row, int col, QPushButton *button)
                     makeMoveHard();
                 }
 
-                //////////////////////////
-                /////////////////////////
 
                 // Check for a winner
                 if (checkWinner())
@@ -414,10 +390,6 @@ void GameScreen::handleButtonClick(int row, int col, QPushButton *button)
                     QMessageBox::information(this, "Game Over", winnerText);
                     disableGameButtons(); // Disable game buttons
 
-                    ////////////////////////////////////////
-                    // Game will be added to history here //
-                    ////////////////////////////////////////
-
                 }
                 else if(checkDraw())
                 {
@@ -427,9 +399,6 @@ void GameScreen::handleButtonClick(int row, int col, QPushButton *button)
                     QMessageBox::information(this, "Game Over", winnerText);
                     disableGameButtons(); // Disable game buttons
 
-                    ////////////////////////////////////////
-                    // Game will be added to history here //
-                    ////////////////////////////////////////
                 }
                 else
                 {
@@ -448,10 +417,7 @@ void GameScreen::handleButtonClick(int row, int col, QPushButton *button)
     }
 }
 
-////////////////////////////////////////
 ////////// Mini Max Algorithm //////////
-////////////////////////////////////////
-
 /*
  * This Algorithm will be used in normal and hard mode only.
  *
